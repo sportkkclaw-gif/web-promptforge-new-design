@@ -1,19 +1,25 @@
 import prisma from '@/lib/prisma';
+import { previewMarketplaceItems } from '@/lib/preview-data';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
 export default async function MarketplacePage() {
-  const items = await prisma.marketplaceItem.findMany({
-    include: {
-      prompt: {
-        select: { id: true, title: true, slug: true, summary: true, engine: true, viewCount: true },
+  let items;
+  try {
+    items = await prisma.marketplaceItem.findMany({
+      include: {
+        prompt: {
+          select: { id: true, title: true, slug: true, summary: true, engine: true, viewCount: true },
+        },
+        seller: { select: { username: true, avatarUrl: true } },
       },
-      seller: { select: { username: true, avatarUrl: true } },
-    },
-    orderBy: { salesCount: 'desc' },
-    take: 20,
-  });
+      orderBy: { salesCount: 'desc' },
+      take: 20,
+    });
+  } catch {
+    items = previewMarketplaceItems;
+  }
 
   return (
     <div className="min-h-screen">
