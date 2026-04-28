@@ -1,0 +1,343 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+// ============================================================
+// Core Models: users, workspaces, plans, subscriptions, credits
+// ============================================================
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  username  String   @unique
+  role      String   @default("member") // visitor|member|creator|team_admin|admin
+  avatarUrl String?
+  credits   Int      @default(100)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  ownedWorkspaces   Workspace[]      @relation("WorkspaceOwner")
+  memberships       WorkspaceMember[]
+  prompts           Prompt[]
+  generationRuns    GenerationRun[]
+  collections       Collection[]
+  marketplaceItems  MarketplaceItem[]
+  buyerOrders       Order[]          @relation("BuyerOrders")
+  sellerOrders      Order[]          @relation("SellerOrders")
+  reviews           Review[]
+  moderationEvents  ModerationEvent[]
+  creditsLedgers    CreditsLedger[]
+}
+
+model Workspace {
+  id        String   @id @default(cuid())
+  name      String
+  ownerId   String
+  planId    String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  owner         User              @relation("WorkspaceOwner", fields: [ownerId], references: [id])
+  plan          Plan              @relation(fields: [planId], references: [id])
+  members       WorkspaceMember[]
+  prompts       Prompt[]
+  collections   Collection[]
+  subscriptions Subscription[]
+  creditsLedgers CreditsLedger[]
+}
+
+model WorkspaceMember {
+  id          String   @id @default(cuid())
+  workspaceId String
+  userId      String
+  role        String   @default("member") // owner|admin|member|viewer
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([workspaceId, userId])
+}
+
+model Plan {
+  id           String   @id @default(cuid())
+  code         String   @unique // FREE|PRO|TEAM|ENTERPRISE
+  monthlyPrice Float    @default(0)
+  creditQuota  Int      @default(50)
+  maxSeats     Int      @default(1)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  workspaces     Workspace[]
+  subscriptions  Subscription[]
+}
+
+model Subscription {
+  id                 String   @id @default(cuid())
+  workspaceId        String
+  planId             String
+  status             String   @default("active") // active|trialing|past_due|canceled
+  currentPeriodEnd   DateTime
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  plan      Plan      @relation(fields: [planId], references: [id])
+}
+
+model CreditsLedger {
+  id         String   @id @default(cuid())
+  userId     String
+  workspaceId String?
+  delta      Int
+  reason     String
+  refType    String?
+  refId      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  user     User      @relation(fields: [userId], references: [id])
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
+}
+
+// ============================================================
+// Prompt Models: prompts, versions, assets, tags
+// ============================================================
+
+model Prompt {
+  id            String   @id @default(cuid())
+  ownerId       String
+  workspaceId   String?
+  title         String
+  slug          String   @unique
+  summary       String
+  content       String
+  negativePrompt String?
+  engine        String   @default("stable-diffusion")
+  model         String   @default("sd-xl")
+  parameters    String   @default("{}") // JSON stored as text for SQLite
+  status        String   @default("draft") // draft|private|published|marketplace|archived
+  priceCredits  Int      @default(0)
+  viewCount     Int      @default(0)
+  saveCount     Int      @default(0)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  owner           User            @relation(fields: [ownerId], references: [id])
+  workspace       Workspace?      @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
+  versions        PromptVersion[]
+  assets          PromptAsset[]
+  promptTags      PromptTag[]
+  generations     GenerationRun[]
+  collectionItems CollectionItem[]
+  marketplaceItem MarketplaceItem?
+  reviews         Review[]
+}
+
+model PromptVersion {
+  id             String   @id @default(cuid())
+  promptId       String
+  version        Int
+  content        String
+  negativePrompt String?
+  parameters     String   @default("{}")
+  changelog      String   @default("")
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+  @@unique([promptId, version])
+}
+
+model PromptAsset {
+  id        String   @id @default(cuid())
+  promptId  String
+  type      String   // cover|sample|attachment
+  url       String
+  alt       String   @default("")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+}
+
+model Tag {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  promptTags PromptTag[]
+}
+
+model PromptTag {
+  id        String   @id @default(cuid())
+  promptId  String
+  tagId     String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  tag    Tag    @relation(fields: [tagId], references: [id], onDelete: Cascade)
+
+  @@unique([promptId, tagId])
+}
+
+// ============================================================
+// Generation Models: runs, outputs
+// ============================================================
+
+model GenerationRun {
+  id         String   @id @default(cuid())
+  promptId   String
+  userId     String
+  engine     String   @default("stable-diffusion")
+  parameters String   @default("{}") // JSON
+  status     String   @default("queued") // queued|running|succeeded|failed|mocked
+  error      String?
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  prompt   Prompt              @relation(fields: [promptId], references: [id])
+  user     User                @relation(fields: [userId], references: [id])
+  outputs  GenerationOutput[]
+}
+
+model GenerationOutput {
+  id        String   @id @default(cuid())
+  runId     String
+  url       String
+  mimeType  String   @default("image/png")
+  width     Int      @default(1024)
+  height    Int      @default(1024)
+  seed      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  run GenerationRun @relation(fields: [runId], references: [id], onDelete: Cascade)
+}
+
+// ============================================================
+// Category Model
+// ============================================================
+
+model Category {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  slug      String   @unique
+  parentId  String?
+  sort      Int      @default(0)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parent   Category? @relation("CategoryParent", fields: [parentId], references: [id])
+  children Category[] @relation("CategoryParent")
+}
+
+// ============================================================
+// Collection Models
+// ============================================================
+
+model Collection {
+  id         String   @id @default(cuid())
+  ownerId    String
+  workspaceId String?
+  name       String
+  visibility String   @default("private") // private|workspace|public
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  owner    User       @relation(fields: [ownerId], references: [id])
+  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
+  items    CollectionItem[]
+}
+
+model CollectionItem {
+  id           String   @id @default(cuid())
+  collectionId String
+  promptId     String
+  note         String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  collection Collection @relation(fields: [collectionId], references: [id], onDelete: Cascade)
+  prompt     Prompt     @relation(fields: [promptId], references: [id], onDelete: Cascade)
+
+  @@unique([collectionId, promptId])
+}
+
+// ============================================================
+// Marketplace Models
+// ============================================================
+
+model MarketplaceItem {
+  id           String   @id @default(cuid())
+  promptId     String   @unique
+  sellerId     String
+  priceCredits Int      @default(10)
+  license      String   @default("personal") // personal|commercial|extended
+  salesCount   Int      @default(0)
+  ratingAvg    Float    @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  seller User   @relation(fields: [sellerId], references: [id])
+  orders Order[]
+}
+
+model Order {
+  id                String   @id @default(cuid())
+  buyerId           String
+  sellerId          String
+  marketplaceItemId String
+  amountCredits     Int
+  status            String   @default("paid") // paid|refunded|failed
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  buyer    User           @relation("BuyerOrders", fields: [buyerId], references: [id])
+  seller   User           @relation("SellerOrders", fields: [sellerId], references: [id])
+  item     MarketplaceItem @relation(fields: [marketplaceItemId], references: [id])
+}
+
+// ============================================================
+// Review & Moderation Models
+// ============================================================
+
+model Review {
+  id        String   @id @default(cuid())
+  userId    String
+  promptId  String
+  rating    Int      @default(5)
+  content   String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  user   User   @relation(fields: [userId], references: [id])
+  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
+}
+
+model ModerationEvent {
+  id          String   @id @default(cuid())
+  targetType  String
+  targetId    String
+  status      String   @default("pending") // pending|approved|rejected
+  reason      String?
+  moderatorId String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  moderator User? @relation(fields: [moderatorId], references: [id])
+}

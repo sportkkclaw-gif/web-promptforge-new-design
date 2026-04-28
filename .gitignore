@@ -1,0 +1,25 @@
+# Dependencies
+node_modules/
+
+# Build outputs
+.next/
+dist/
+build/
+
+# Environment files
+.env
+.env.local
+.env.example
+.env.production
+
+# Database
+*.db
+*.sqlite
+*.sqlite3
+
+# Vercel
+.vercel/
+
+# Misc
+.DS_Store
+*.log

@@ -1,0 +1,198 @@
+{
+  "task_id": "20260427_ai_promptforge_new_design_plan_mockups",
+  "title": "PromptForge Studio 專業 AI 提示詞生成器 MVP",
+  "status": "approved_archived",
+  "current_lane": "05_驗收通過",
+  "lane": "sebastian",
+  "task_path": "/home/sport/WORK/AGENTS/05_驗收通過/sebastian/20260427_ai_promptforge_new_design_plan_mockups",
+  "next_agent": "user",
+  "next_event": null,
+  "trace_id": "20260427_ai_promptforge_new_design_plan_mockups-1777290861",
+  "created_at": "2026-04-27T19:54:21+08:00",
+  "updated_at": "2026-04-28T00:22:58+08:00",
+  "references": [
+    "https://civitai.com/",
+    "https://prompthero.com/",
+    "https://app.leonardo.ai/"
+  ],
+  "user_gate": "APPROVED_BY_JASON: 已核准依收斂版 MVP UI 撰寫詳細開發案；可 plan.ready 給 Sebastian。",
+  "required_mockups": [
+    "mockups_mvp_simplified/mockup_01_template_library_mvp_with_image_prompts.png",
+    "mockups_mvp_simplified/mockup_02_prompt_generator_mvp.png",
+    "mockups_mvp_simplified/mockup_03_template_admin_mvp.png"
+  ],
+  "must_use_image_generation": false,
+  "must_not_dispatch_to_development_until_user_ok": false,
+  "webhook_deliveries": [
+    {
+      "event_type": "topic.created",
+      "target": "sophie-topic-created",
+      "url": "http://127.0.0.1:8645/webhooks/sophie-topic-created",
+      "http_status": 202,
+      "response": {
+        "status": "accepted",
+        "route": "sophie-topic-created",
+        "event": "topic.created",
+        "delivery_id": "1777290861282"
+      },
+      "sent_at": "2026-04-27T19:54:21+08:00",
+      "last_error": null,
+      "sent_by": "platform_admin"
+    },
+    {
+      "event_type": "plan.ready",
+      "target": "sebastian-plan-ready",
+      "url": "http://127.0.0.1:8646/webhooks/sebastian-plan-ready",
+      "http_status": 202,
+      "response": {
+        "status": "accepted",
+        "route": "sebastian-plan-ready",
+        "event": "plan.ready",
+        "delivery_id": "1777291680574"
+      },
+      "delivery_id": "1777291680574",
+      "sent_at": "2026-04-27T20:08:00.576402+08:00",
+      "last_error": null,
+      "sent_by": "sophie"
+    },
+    {
+      "event_type": "build.ready",
+      "target": "simon-build-ready",
+      "url": "http://127.0.0.1:8647/webhooks/simon-build-ready",
+      "http_status": 202,
+      "response": {
+        "status": "accepted",
+        "route": "simon-build-ready",
+        "event": "build.ready",
+        "delivery_id": "1777306359399"
+      },
+      "delivery_id": "1777306359399",
+      "sent_at": "2026-04-28T00:13:37+08:00",
+      "last_error": null,
+      "sent_by": "sebastian",
+      "revision": "promptforge_professional_prompt_generator_mvp_v1"
+    }
+  ],
+  "last_dispatched_event": "build.ready",
+  "last_dispatched_at": "2026-04-28T00:13:37+08:00",
+  "planning_outputs": {
+    "plan": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/PLAN.md",
+    "competitor_reference": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/COMPETITOR_REFERENCE.md",
+    "mockup_gallery": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/MOCKUP_GALLERY.md"
+  },
+  "mockups": [
+    {
+      "title": "首頁 / Marketplace Home",
+      "path": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/mockup_home.png",
+      "source": "/home/sport/.hermes/profiles/sophie/cache/images/openai_codex_gpt-image-2-medium_20260427_195835_5a28f691.png"
+    },
+    {
+      "title": "功能頁一：探索 / 瀑布流 / 搜尋篩選",
+      "path": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/mockup_explore.png",
+      "source": "/home/sport/.hermes/profiles/sophie/cache/images/openai_codex_gpt-image-2-medium_20260427_200016_51ba43dd.png"
+    },
+    {
+      "title": "功能頁二：Prompt detail / 生成參數 / 一鍵套用",
+      "path": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/mockup_detail.png",
+      "source": "/home/sport/.hermes/profiles/sophie/cache/images/openai_codex_gpt-image-2-medium_20260427_200306_7077cf90.png"
+    }
+  ],
+  "active_implementation_task": "/home/sport/WORK/AGENTS/05_驗收通過/sebastian/20260427_ai_promptforge_new_design_plan_mockups",
+  "revision": "promptforge_professional_prompt_generator_mvp_v1",
+  "formal_status": "approved_archived",
+  "internal_next_action": "待 Simon 驗收結果",
+  "all_must_fix_completed": true,
+  "ready_for_build_ready": true,
+  "completed_steps": [
+    {
+      "at": "2026-04-28T00:13:37+08:00",
+      "by": "sebastian",
+      "summary": "完成 PromptForge MVP 實作與規格相容層；測試/建置全綠；已送 build.ready 給 Simon。",
+      "evidence": [
+        "node --run test => 15 suites, 80 tests passed",
+        "node --run build => Compiled successfully, static pages 49/49",
+        "補齊 SPEC 必做路由：/templates* /generator/[templateId] /result/[sessionId] /history /saved /pricing /settings /admin/templates*",
+        "補齊 SPEC 必做 API：/api/templates* /api/categories /api/generate* /api/admin/templates/[id]/test /api/sessions /api/saved /api/usage/quota",
+        "MVP 邊界：改為文字 prompt 生成（無站內圖片生成），Mock AI fallback 保留"
+      ]
+    }
+  ],
+  "verification": {
+    "verified_at": "2026-04-28T00:13:37+08:00",
+    "by": "sebastian",
+    "test_command": "node --run test",
+    "test_result": "PASS (15 suites, 80 tests)",
+    "build_command": "node --run build",
+    "build_result": "PASS (Compiled successfully, 49/49 static pages)",
+    "scope_guard": "No in-app image generation; prompt-text generation only"
+  },
+  "workflow_history": [
+    {
+      "at": "2026-04-28T00:13:37+08:00",
+      "by": "sebastian",
+      "action": "build_ready_sent_to_simon",
+      "http_status": 202,
+      "delivery_id": "1777306359399",
+      "last_error": null
+    },
+    {
+      "at": "2026-04-28T00:16:45+08:00",
+      "by": "simon",
+      "action": "review.rejected",
+      "verdict": "returned_for_fix",
+      "reason": "source truth-pack build.ready wrong-entry; formal 03 deliverable missing",
+      "moved_to": "/home/sport/WORK/AGENTS/04_打回修改/sebastian/20260427_ai_promptforge_new_design_plan_mockups",
+      "report_path": "/mnt/d/WORK/成品區/_驗收報告/Simon/20260427_ai_promptforge_new_design_plan_mockups/20260428T001645+0800_20260427_ai_promptforge_new_design_plan_mockups_review.rejected.md"
+    },
+    {
+      "at": "2026-04-28T00:22:03+08:00",
+      "by": "simon",
+      "action": "review.done",
+      "verdict": "approved",
+      "reason": "Superseded earlier source-path rejection after independent build/test/live validation passed",
+      "moved_to": "/home/sport/WORK/AGENTS/05_驗收通過/sebastian/20260427_ai_promptforge_new_design_plan_mockups",
+      "report_path": "/mnt/d/WORK/成品區/_驗收報告/Simon/20260427_ai_promptforge_new_design_plan_mockups/20260428T002203+0800_20260427_ai_promptforge_new_design_plan_mockups_review.done.md",
+      "final_package": "/mnt/d/WORK/成品區/待最終審核/sebastian/20260427_ai_promptforge_new_design_plan_mockups"
+    }
+  ],
+  "verdict": "approved",
+  "review_event": "review.done",
+  "reviewed_by": "simon",
+  "reviewed_at": "2026-04-28T00:22:03+08:00",
+  "review_reason": "Approved after SUPAGENT independent validation: npm test 15 suites/80 tests PASS, npm run build 49/49 PASS, production live probes passed; earlier source-path rejection is superseded and archived.",
+  "lane_moved_to": "05_驗收通過/sebastian",
+  "current_lane_path": "/home/sport/WORK/AGENTS/05_驗收通過/sebastian/20260427_ai_promptforge_new_design_plan_mockups",
+  "simon_report_dir": "/mnt/d/WORK/成品區/_驗收報告/Simon/20260427_ai_promptforge_new_design_plan_mockups",
+  "simon_report_path": "/mnt/d/WORK/成品區/_驗收報告/Simon/20260427_ai_promptforge_new_design_plan_mockups/20260428T002203+0800_20260427_ai_promptforge_new_design_plan_mockups_review.done.md",
+  "windows_simon_report_dir": "D:\\WORK\\成品區\\_驗收報告\\Simon\\20260427_ai_promptforge_new_design_plan_mockups",
+  "windows_simon_report_path": "D:\\WORK\\成品區\\_驗收報告\\Simon\\20260427_ai_promptforge_new_design_plan_mockups\\20260428T002203+0800_20260427_ai_promptforge_new_design_plan_mockups_review.done.md",
+  "final_package_path": "/mnt/d/WORK/成品區/待最終審核/sebastian/20260427_ai_promptforge_new_design_plan_mockups",
+  "windows_final_package_path": "D:\\WORK\\成品區\\待最終審核\\sebastian\\20260427_ai_promptforge_new_design_plan_mockups",
+  "must_fix": [],
+  "must_not_do": [],
+  "resubmit_condition": [],
+  "validation": {
+    "supagent_independent_validation": {
+      "build": "npm run build PASS — Compiled successfully, 49/49 static pages",
+      "test": "npm test PASS — 15 suites, 80 tests",
+      "live_routes": {
+        "/": "200",
+        "/browse": "200",
+        "/templates": "307 -> /browse",
+        "/generator/business": "200",
+        "/admin": "200",
+        "/admin/templates": "307 -> /admin",
+        "/api/templates": "200",
+        "/api/categories": "200",
+        "POST /api/generate": "405 expected method guard"
+      },
+      "note": "SUPAGENT independent validation completed in 212s; no functional blockers found. Initial source-path rejection is superseded because executable formal deliverable was present and was moved by Simon during review."
+    },
+    "pollutants_found": [],
+    "final_verdict_basis": "functional build/test/live probes passed; stale source-path rejection superseded; approved from re-resolved live folder",
+    "formal_03_exists_after_move": false
+  },
+  "approved_at": "2026-04-28T00:22:03+08:00",
+  "superseded_review_rejected_at": "2026-04-28T00:16:45+08:00",
+  "superseded_return_context": "/home/sport/WORK/AGENTS/05_驗收通過/sebastian/20260427_ai_promptforge_new_design_plan_mockups/_simon_return_records/20260428T002203+0800_RETURN_CONTEXT_superseded_by_review.done.md"
+}
