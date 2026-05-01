@@ -29,3 +29,10 @@
 - 圖片為本機 deterministic SVG demo covers，不是真 AI 生成正式商品圖。
 - 未注入真實 Stripe/OpenAI/Anthropic/Elastic/Resend/Sentry/Supabase production secrets。
 - 正式 QC 仍需 cloud secrets 與 H1-H10 live verification。
+
+## 2026-05-01 返回首頁按鍵修正
+- 修正頁面：`/generator/default-template`（由 `/create` 導入）
+- 新增：頁首右上 `← 返回首頁`，連到 `/`
+- Preview： https://promptforge-studio-ksounkj3l-sportkk101-5719s-projects.vercel.app/generator/default-template
+- 驗證：Vercel READY；PR checks ESLint / Type Check / Contract Checks / Build / Vercel 全部 SUCCESS；Browser 點擊後成功回首頁。
+

@@ -1829,7 +1829,14 @@
       "cloud_detail_prompt_016": "4/4 images loaded, 0 broken, src /demo-covers/prompt_016.svg",
       "category_logo": "HTTP 200, 2 images, 0 broken in HTTP probe"
     },
-    "limitations": "Mock/showcase preview only. Formal Simon/QC remains blocked until DATABASE_URL, AUTH_SECRET/AUTH_URL, OpenAI, Anthropic, Stripe, Elasticsearch, Resend, Sentry envs are provided and H1-H10 verify:cloud passes."
+    "limitations": "Mock/showcase preview only. Formal Simon/QC remains blocked until DATABASE_URL, AUTH_SECRET/AUTH_URL, OpenAI, Anthropic, Stripe, Elasticsearch, Resend, Sentry envs are provided and H1-H10 verify:cloud passes.",
+    "generator_navigation_fix": {
+      "status": "verified",
+      "preview_url": "https://promptforge-studio-ksounkj3l-sportkk101-5719s-projects.vercel.app/generator/default-template",
+      "home_link": "← 返回首頁 -> /",
+      "verified_at": "2026-05-01T21:03+08:00",
+      "commit": "e3580d0"
+    }
   },
   "repo_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design",
   "pr_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design/pull/2",
