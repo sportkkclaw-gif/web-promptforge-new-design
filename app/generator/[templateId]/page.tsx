@@ -1,6 +1,7 @@
 'use client';
 
 import { useState } from 'react';
+import Link from 'next/link';
 import { useParams } from 'next/navigation';
 
 interface GenerateData {
@@ -82,8 +83,15 @@ export default function GeneratorPage() {
 
   return (
     <main className="max-w-5xl mx-auto p-6 space-y-6">
-      <h1 className="text-2xl font-bold">Prompt Generator Workspace</h1>
-      <p className="text-sm text-gray-600">模板 ID：{templateId}（MVP 文字提示詞生成；不含站內圖片生成）</p>
+      <header className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
+        <div>
+          <h1 className="text-2xl font-bold">Prompt Generator Workspace</h1>
+          <p className="text-sm text-gray-600">模板 ID：{templateId}（MVP 文字提示詞生成；不含站內圖片生成）</p>
+        </div>
+        <Link href="/" className="inline-flex w-fit items-center rounded border px-4 py-2 text-sm font-medium text-gray-800 hover:bg-gray-50">
+          ← 返回首頁
+        </Link>
+      </header>
 
       <section className="grid md:grid-cols-2 gap-4">
         {field('subject', 'Subject', 'e.g. premium coffee cup on wooden table')}
