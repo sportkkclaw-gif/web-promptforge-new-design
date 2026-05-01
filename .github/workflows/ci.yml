@@ -55,8 +55,8 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npx prisma generate
-      - run: node --run cloud:contract
-      - run: node --run cloud:readiness || true
+      - run: npm run cloud:contract
+      - run: npm run cloud:readiness || true
 
   build:
     name: Build
