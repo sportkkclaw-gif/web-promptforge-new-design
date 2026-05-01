@@ -8,9 +8,11 @@ build/
 
 # Environment files
 .env
-.env.local
-.env.example
-.env.production
+.env.*
+!.env.example
+!.env.local.example
+!.env.production.example
+!.env.production.required
 
 # Database
 *.db

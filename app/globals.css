@@ -56,3 +56,147 @@ body {
   background: hsl(var(--background));
   font-family: system-ui, -apple-system, sans-serif;
 }
+
+/* ─── Prompt Editor: {{variable}} token highlighting ─────────────────────── */
+@layer components {
+  .prompt-var-token {
+    @apply bg-primary/10 text-primary font-semibold rounded px-0.5;
+  }
+}
+
+
+/* ─── PromptForge Mock Showcase polish ───────────────────────────────────── */
+@layer components {
+  .pf-lux-page {
+    min-height: 100vh;
+    color: #f7f8f8;
+    background:
+      radial-gradient(circle at 15% -10%, rgba(126, 87, 255, 0.36), transparent 32rem),
+      radial-gradient(circle at 88% 8%, rgba(14, 165, 233, 0.24), transparent 34rem),
+      radial-gradient(circle at 62% 92%, rgba(244, 114, 182, 0.13), transparent 30rem),
+      linear-gradient(135deg, #070811 0%, #0d1020 46%, #100816 100%);
+    position: relative;
+    overflow-x: hidden;
+  }
+
+  .pf-lux-page::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background-image:
+      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+    background-size: 56px 56px;
+    mask-image: linear-gradient(to bottom, rgba(0,0,0,0.7), transparent 72%);
+  }
+
+  .pf-lux-page::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    background: radial-gradient(circle at 50% 0%, transparent 0, rgba(0,0,0,0.22) 52%, rgba(0,0,0,0.50) 100%);
+  }
+
+  .pf-lux-page > * {
+    position: relative;
+    z-index: 1;
+  }
+
+  .pf-lux-nav {
+    border-bottom: 1px solid rgba(255,255,255,0.08);
+    background: rgba(7, 8, 17, 0.72);
+    backdrop-filter: blur(18px);
+    box-shadow: 0 1px 0 rgba(255,255,255,0.04), 0 18px 60px rgba(0,0,0,0.20);
+  }
+
+  .pf-lux-brand {
+    color: #fff;
+    letter-spacing: -0.03em;
+    text-shadow: 0 0 28px rgba(132, 92, 255, 0.55);
+  }
+
+  .pf-lux-link {
+    color: rgba(226, 232, 240, 0.78);
+    transition: color .2s ease, background .2s ease, border-color .2s ease;
+  }
+
+  .pf-lux-link:hover { color: #fff; }
+
+  .pf-lux-cta {
+    color: #fff;
+    background: linear-gradient(135deg, #745cff, #9b5cff 50%, #0ea5e9);
+    box-shadow: 0 12px 30px rgba(116, 92, 255, 0.32);
+    border: 1px solid rgba(255,255,255,0.14);
+  }
+
+  .pf-lux-shell {
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 28px;
+    background: linear-gradient(180deg, rgba(255,255,255,0.075), rgba(255,255,255,0.035));
+    box-shadow: 0 30px 90px rgba(0,0,0,0.42), inset 0 1px 0 rgba(255,255,255,0.10);
+    backdrop-filter: blur(16px);
+  }
+
+  .pf-lux-panel {
+    border: 1px solid rgba(255,255,255,0.09);
+    border-radius: 20px;
+    background: rgba(10, 13, 26, 0.62);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.06), 0 18px 50px rgba(0,0,0,0.22);
+  }
+
+  .pf-lux-title {
+    color: #fff;
+    letter-spacing: -0.045em;
+  }
+
+  .pf-lux-muted { color: rgba(203, 213, 225, 0.72); }
+
+  .pf-lux-category {
+    color: rgba(203, 213, 225, 0.78);
+    border: 1px solid transparent;
+  }
+
+  .pf-lux-category:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.07);
+    border-color: rgba(255,255,255,0.09);
+  }
+
+  .pf-lux-category-active {
+    color: #fff;
+    background: linear-gradient(135deg, rgba(116,92,255,0.38), rgba(14,165,233,0.20));
+    border-color: rgba(255,255,255,0.14);
+    box-shadow: inset 0 1px 0 rgba(255,255,255,0.10);
+  }
+
+  .pf-lux-input {
+    color: #fff;
+    background: rgba(5, 8, 18, 0.62);
+    border: 1px solid rgba(255,255,255,0.11);
+    outline: none;
+  }
+
+  .pf-lux-input::placeholder { color: rgba(203, 213, 225, 0.48); }
+  .pf-lux-input:focus { box-shadow: 0 0 0 3px rgba(116,92,255,0.22); border-color: rgba(145,120,255,0.55); }
+
+  .pf-lux-card {
+    border: 1px solid rgba(255,255,255,0.10);
+    background: linear-gradient(180deg, rgba(255,255,255,0.082), rgba(255,255,255,0.036));
+    box-shadow: 0 18px 50px rgba(0,0,0,0.28), inset 0 1px 0 rgba(255,255,255,0.08);
+    backdrop-filter: blur(10px);
+  }
+
+  .pf-lux-card:hover {
+    border-color: rgba(145, 120, 255, 0.46);
+    box-shadow: 0 24px 70px rgba(0,0,0,0.38), 0 0 0 1px rgba(145,120,255,0.13), inset 0 1px 0 rgba(255,255,255,0.12);
+    transform: translateY(-2px);
+  }
+
+  .pf-lux-chip {
+    border: 1px solid rgba(255,255,255,0.10);
+    background: rgba(255,255,255,0.06);
+    color: rgba(226,232,240,0.88);
+  }
+}

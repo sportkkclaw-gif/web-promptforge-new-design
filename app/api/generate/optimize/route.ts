@@ -1,13 +1,29 @@
 import { NextRequest } from 'next/server';
 import { ok, error } from '@/lib/api';
+import { z } from 'zod';
+import { getSession } from '@/lib/auth';
+import { writeAuditLog, getClientIp } from '@/lib/audit';
 
-// POST /api/generate/optimize
-// Return structured optimization guidance in MVP mock mode
+const OptimizeBodySchema = z.object({
+  parameters: z.record(z.unknown()).optional(),
+});
+
 export async function POST(request: NextRequest) {
+  let body: unknown;
   try {
-    const body = await request.json();
-    const parameters = body?.parameters ?? {};
+    body = await request.json();
+  } catch {
+    return error('Invalid JSON body', 400);
+  }
 
+  const parsed = OptimizeBodySchema.safeParse(body);
+  if (!parsed.success) {
+    return error(parsed.error.errors[0]?.message || 'Validation failed', 400);
+  }
+
+  const parameters = parsed.data.parameters ?? {};
+
+  try {
     const missingInfoHints = [
       !parameters.subject && 'subject 未填寫',
       !parameters.style && 'style 未填寫',
@@ -27,6 +43,16 @@ export async function POST(request: NextRequest) {
       parameters.composition || 'balanced composition',
       parameters.lighting || 'studio lighting',
     ].join(', ');
+
+    const token = request.headers.get('authorization')?.replace('Bearer ', '').trim();
+    const session = token ? getSession(token) : null;
+    await writeAuditLog({
+      userId: session?.userId ?? null,
+      action: 'PROMPT_UPDATE',
+      target: 'generate:optimize',
+      metadata: { hasParameters: Object.keys(parameters).length > 0 },
+      ipAddress: getClientIp(request),
+    });
 
     return ok({
       missingInfoHints,

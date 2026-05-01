@@ -1,32 +1,80 @@
 import { NextRequest } from 'next/server';
 import { ok, error } from '@/lib/api';
-import { createOrder } from '@/lib/services/marketplace';
+import { getSession } from '@/lib/auth';
+import { createOrder, getOrdersByUser } from '@/lib/services/marketplace';
+import { writeAuditLog } from '@/lib/audit';
+import { z } from 'zod';
 
-export async function POST(request: NextRequest) {
+const CreateOrderSchema = z.object({
+  marketplaceItemId: z.string().min(1, 'marketplaceItemId is required'),
+});
+
+// GET /api/marketplace/orders — list orders for the authenticated user
+export async function GET(request: NextRequest) {
+  const token = request.headers.get('authorization')?.replace('Bearer ', '');
+  if (!token) return error('Unauthorized', 401);
+
+  const session = getSession(token);
+  if (!session) return error('Unauthorized', 401);
+
+  // Enforce: only allow fetching own orders (ignore userId query param)
+  const userId = session.userId;
+
   try {
-    const body = await request.json();
-    const { marketplaceItemId } = body;
-
-    if (!marketplaceItemId) return error('marketplaceItemId is required');
-
-    // In mock mode, use first user as buyer
-    const { createOrder: orderFn } = await import('@/lib/services/marketplace');
-    const result = await orderFn('mock_buyer_id', marketplaceItemId);
-    return ok(result, 201);
+    const orders = await getOrdersByUser(userId);
+    return ok({ orders });
   } catch (e: any) {
-    return error(e.message || 'Order failed');
+    return error(e.message || 'Failed to fetch orders', 500);
   }
 }
 
-export async function GET(request: NextRequest) {
-  const { searchParams } = new URL(request.url);
-  const userId = searchParams.get('userId') ?? undefined;
+// POST /api/marketplace/orders — place a new order
+export async function POST(request: NextRequest) {
+  const token = request.headers.get('authorization')?.replace('Bearer ', '');
+  if (!token) return error('Unauthorized', 401);
+
+  const session = getSession(token);
+  if (!session) return error('Unauthorized', 401);
+
+  // Parse & validate body
+  let body: { marketplaceItemId?: string };
+  try {
+    body = await request.json();
+  } catch {
+    return error('Invalid JSON body', 400);
+  }
+
+  const parsed = CreateOrderSchema.safeParse(body);
+  if (!parsed.success) {
+    return error(parsed.error.errors[0].message, 400);
+  }
+
+  const { marketplaceItemId } = parsed.data;
+  const buyerId = session.userId;
 
   try {
-    const { getOrdersByUser } = await import('@/lib/services/marketplace');
-    const orders = await getOrdersByUser(userId ?? 'mock_buyer_id');
-    return ok({ orders });
-  } catch {
-    return error('Failed to fetch orders');
+    const result = await createOrder(buyerId, marketplaceItemId);
+
+    await writeAuditLog({
+      userId: buyerId,
+      action: 'ORDER_PLACED',
+      target: `order:${result.orderId}`,
+      metadata: { marketplaceItemId, creditsSpent: result.creditsSpent },
+    });
+
+    return ok(result, 201);
+  } catch (e: any) {
+    const msg = e.message || 'Order failed';
+    // Map known errors to appropriate HTTP status
+    if (msg.includes('not found') || msg.includes('Item not found') || msg.includes('Marketplace item not found')) {
+      return error(msg, 404);
+    }
+    if (msg.includes('Insufficient credits')) {
+      return error(msg, 402);
+    }
+    if (msg.includes('already purchased')) {
+      return error(msg, 409);
+    }
+    return error(msg, 500);
   }
 }

@@ -1,12 +1,24 @@
+// GET /api/analytics/creator
 import { NextRequest } from 'next/server';
 import { ok, error } from '@/lib/api';
 import prisma from '@/lib/prisma';
+import { z } from 'zod';
+import { writeAuditLog, getClientIp } from '@/lib/audit';
+
+const AnalyticsQuerySchema = z.object({
+  userId: z.string().min(1, 'userId is required'),
+});
 
 export async function GET(request: NextRequest) {
+  const ip = getClientIp(request);
   const { searchParams } = new URL(request.url);
-  const userId = searchParams.get('userId') ?? undefined;
+  const params = AnalyticsQuerySchema.safeParse(Object.fromEntries(searchParams));
 
-  if (!userId) return error('userId is required');
+  if (!params.success) {
+    return error(params.error.errors[0]?.message || 'Invalid parameters', 422);
+  }
+
+  const { userId } = params.data;
 
   try {
     const [prompts, orders, generations] = await Promise.all([
@@ -20,6 +32,13 @@ export async function GET(request: NextRequest) {
     const totalRevenue = orders.reduce((sum, o) => sum + o.amountCredits, 0);
     const totalGenerations = generations.length;
     const succeededGenerations = generations.filter(g => g.status === 'succeeded' || g.status === 'mocked').length;
+
+    await writeAuditLog({
+      userId,
+      action: 'ANALYTICS_VIEW',
+      target: userId,
+      ipAddress: ip,
+    });
 
     return ok({
       summary: {
@@ -40,6 +59,6 @@ export async function GET(request: NextRequest) {
       })),
     });
   } catch {
-    return error('Failed to fetch analytics');
+    return error('Failed to fetch analytics', 500);
   }
 }

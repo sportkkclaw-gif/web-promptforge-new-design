@@ -20,11 +20,14 @@ async function main() {
   await prisma.prompt.deleteMany();
   await prisma.tag.deleteMany();
   await prisma.category.deleteMany();
+  await prisma.taxonomy.deleteMany();
   await prisma.creditsLedger.deleteMany();
   await prisma.subscription.deleteMany();
   await prisma.workspaceMember.deleteMany();
   await prisma.workspace.deleteMany();
   await prisma.plan.deleteMany();
+  await prisma.quotaPlan.deleteMany();
+  await prisma.creditPackage.deleteMany();
   await prisma.user.deleteMany();
 
   // ============================================================
@@ -65,6 +68,58 @@ async function main() {
       maxSeats: 100,
     },
   });
+
+  // ============================================================
+  // Quota Plans (mirrors Plan, for quota/plan-display APIs)
+  // ============================================================
+  const quotaPlans = await Promise.all([
+    prisma.quotaPlan.create({
+      data: {
+        code: 'FREE', name: 'Free Plan', monthlyPrice: 0,
+        creditQuota: 50, maxSeats: 1,
+        features: JSON.stringify(['generations_50', 'templates_basic', 'marketplace_view']),
+      },
+    }),
+    prisma.quotaPlan.create({
+      data: {
+        code: 'PRO', name: 'Pro Plan', monthlyPrice: 19.99,
+        creditQuota: 1000, maxSeats: 1,
+        features: JSON.stringify(['generations_unlimited', 'templates_all', 'marketplace_sell', 'priority_support']),
+      },
+    }),
+    prisma.quotaPlan.create({
+      data: {
+        code: 'TEAM', name: 'Team Plan', monthlyPrice: 79.99,
+        creditQuota: 5000, maxSeats: 10,
+        features: JSON.stringify(['generations_unlimited', 'templates_all', 'marketplace_sell', 'team_collaboration', 'analytics']),
+      },
+    }),
+    prisma.quotaPlan.create({
+      data: {
+        code: 'ENTERPRISE', name: 'Enterprise Plan', monthlyPrice: 299.99,
+        creditQuota: 999999, maxSeats: 100,
+        features: JSON.stringify(['everything', 'dedicated_support', 'custom_integrations', 'sla']),
+      },
+    }),
+  ]);
+
+  // ============================================================
+  // Credit Packages (purchasable credit bundles)
+  // ============================================================
+  const creditPackages = await Promise.all([
+    prisma.creditPackage.create({
+      data: { code: 'credits_100', label: '100 Credits', credits: 100, priceUsd: 5, sortOrder: 1 },
+    }),
+    prisma.creditPackage.create({
+      data: { code: 'credits_500', label: '500 Credits (20% off)', credits: 500, priceUsd: 20, sortOrder: 2 },
+    }),
+    prisma.creditPackage.create({
+      data: { code: 'credits_1000', label: '1,000 Credits (30% off)', credits: 1000, priceUsd: 35, sortOrder: 3 },
+    }),
+    prisma.creditPackage.create({
+      data: { code: 'credits_5000', label: '5,000 Credits (40% off)', credits: 5000, priceUsd: 150, sortOrder: 4 },
+    }),
+  ]);
 
   // ============================================================
   // Users
@@ -129,6 +184,7 @@ async function main() {
   const teamWorkspace = await prisma.workspace.create({
     data: {
       name: 'Midjourney Masters',
+      slug: 'midjourney-masters',
       ownerId: 'user_team_admin',
       planId: teamPlan.id,
     },
@@ -155,7 +211,7 @@ async function main() {
   });
 
   // ============================================================
-  // Categories
+  // Categories (flat list — for simple browsing taxonomy)
   // ============================================================
   const categories = await Promise.all([
     prisma.category.create({ data: { name: 'Marketing', slug: 'marketing', sort: 1 } }),
@@ -169,6 +225,63 @@ async function main() {
     prisma.category.create({ data: { name: 'Copywriting', slug: 'copywriting', sort: 9 } }),
     prisma.category.create({ data: { name: 'Education', slug: 'education', sort: 10 } }),
   ]);
+
+  // ============================================================
+  // Taxonomy (hierarchical — parent/child for rich category trees)
+  // 6 top-level categories with subcategories each
+  // ============================================================
+  const taxData = [
+    // Marketing
+    { name: 'Marketing', slug: 'tax-marketing', type: 'category', sort: 1, children: [
+      { name: 'Social Media', slug: 'tax-marketing-social', type: 'category', sort: 1 },
+      { name: 'Email Campaigns', slug: 'tax-marketing-email', type: 'category', sort: 2 },
+      { name: 'Ads & Banners', slug: 'tax-marketing-ads', type: 'category', sort: 3 },
+    ]},
+    // E-commerce
+    { name: 'E-commerce', slug: 'tax-ecommerce', type: 'category', sort: 2, children: [
+      { name: 'Product Photography', slug: 'tax-ecom-product', type: 'category', sort: 1 },
+      { name: 'Fashion & Apparel', slug: 'tax-ecom-fashion', type: 'category', sort: 2 },
+      { name: 'Lifestyle & Home', slug: 'tax-ecom-lifestyle', type: 'category', sort: 3 },
+    ]},
+    // Gaming
+    { name: 'Gaming', slug: 'tax-gaming', type: 'category', sort: 3, children: [
+      { name: 'Character Art', slug: 'tax-gaming-character', type: 'category', sort: 1 },
+      { name: 'Environment Art', slug: 'tax-gaming-environment', type: 'category', sort: 2 },
+      { name: 'UI & HUD', slug: 'tax-gaming-ui', type: 'category', sort: 3 },
+    ]},
+    // Character Design
+    { name: 'Character Design', slug: 'tax-character', type: 'category', sort: 4, children: [
+      { name: 'Portraits', slug: 'tax-character-portraits', type: 'category', sort: 1 },
+      { name: 'Full Body', slug: 'tax-character-fullbody', type: 'category', sort: 2 },
+      { name: 'Fantasy & Sci-Fi', slug: 'tax-character-fantasy', type: 'category', sort: 3 },
+    ]},
+    // Photography
+    { name: 'Photography', slug: 'tax-photography', type: 'category', sort: 5, children: [
+      { name: 'Portrait', slug: 'tax-photo-portrait', type: 'category', sort: 1 },
+      { name: 'Landscape', slug: 'tax-photo-landscape', type: 'category', sort: 2 },
+      { name: 'Wildlife', slug: 'tax-photo-wildlife', type: 'category', sort: 3 },
+    ]},
+    // Architecture
+    { name: 'Architecture', slug: 'tax-architecture', type: 'category', sort: 6, children: [
+      { name: 'Exterior', slug: 'tax-arch-exterior', type: 'category', sort: 1 },
+      { name: 'Interior', slug: 'tax-arch-interior', type: 'category', sort: 2 },
+      { name: 'Urban Design', slug: 'tax-arch-urban', type: 'category', sort: 3 },
+    ]},
+  ];
+
+  let taxonomyCount = 0;
+  for (const parent of taxData) {
+    const created = await prisma.taxonomy.create({
+      data: { name: parent.name, slug: parent.slug, type: parent.type, sort: parent.sort },
+    });
+    taxonomyCount++; // parent
+    for (const child of parent.children) {
+      await prisma.taxonomy.create({
+        data: { name: child.name, slug: child.slug, type: child.type, sort: child.sort, parentId: created.id },
+      });
+      taxonomyCount++; // child
+    }
+  }
 
   // ============================================================
   // Tags
@@ -745,19 +858,22 @@ async function main() {
   // ============================================================
   await prisma.creditsLedger.createMany({
     data: [
-      { userId: 'user_creator', delta: 1000, reason: 'Pro subscription bonus', refType: 'subscription', refId: 'sub_001' },
-      { userId: 'user_creator', delta: -15, reason: 'Marketplace purchase: prompt_003', refType: 'order', refId: 'order_001' },
-      { userId: 'user_member', delta: 100, reason: 'Welcome bonus', refType: 'signup', refId: 'user_member' },
-      { userId: 'user_team_admin', delta: 5000, reason: 'Team subscription bonus', refType: 'subscription', refId: 'sub_002' },
-      { userId: 'user_creator', delta: 150, reason: 'Marketplace sale: prompt_003', refType: 'sale', refId: 'order_002' },
+      { userId: 'user_creator', delta: 1000, balanceAfter: 1000, reason: 'Pro subscription bonus', refType: 'subscription', refId: 'sub_001' },
+      { userId: 'user_creator', delta: -15, balanceAfter: 985, reason: 'Marketplace purchase: prompt_003', refType: 'order', refId: 'order_001' },
+      { userId: 'user_member', delta: 100, balanceAfter: 100, reason: 'Welcome bonus', refType: 'signup', refId: 'user_member' },
+      { userId: 'user_team_admin', delta: 5000, balanceAfter: 5000, reason: 'Team subscription bonus', refType: 'subscription', refId: 'sub_002' },
+      { userId: 'user_creator', delta: 150, balanceAfter: 1135, reason: 'Marketplace sale: prompt_003', refType: 'sale', refId: 'order_002' },
     ],
   });
 
   console.log('✅ Seeded successfully!');
   console.log('  Plans:', 4);
+  console.log('  QuotaPlans:', 4);
+  console.log('  CreditPackages:', 4);
   console.log('  Users:', 5);
   console.log('  Workspaces:', 1);
   console.log('  Categories:', categories.length);
+  console.log('  Taxonomy (hierarchical):', taxonomyCount);
   console.log('  Tags:', tags.length);
   console.log('  Prompts:', promptData.length);
   console.log('  Prompt Versions:', 24 + 8);

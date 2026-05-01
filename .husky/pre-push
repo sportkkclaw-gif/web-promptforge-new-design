@@ -1,0 +1,21 @@
+#!/usr/bin/env sh
+# PromptForge Studio - Pre-push hook
+# Runs type-check before allowing push
+
+echo "🔒 Running pre-push type checks..."
+
+if ! command -v npx >/dev/null 2>&1; then
+  echo "⚠ npx not available, skipping type check"
+  exit 0
+fi
+
+# Run TypeScript type check
+echo "📝 Running TypeScript type check..."
+npx tsc --noEmit 2>&1
+
+if [ $? -ne 0 ]; then
+  echo "❌ Type check failed. Fix errors before pushing."
+  exit 1
+fi
+
+echo "✅ Pre-push checks passed"
