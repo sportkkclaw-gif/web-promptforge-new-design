@@ -1,56 +1,43 @@
 import prisma from '@/lib/prisma';
+import { previewPrompts } from '@/lib/preview-data';
 import Link from 'next/link';
+import type { ReactNode } from 'react';
+
+function DashboardChrome({ children }: { children: ReactNode }) {
+  return (
+    <div className="relative min-h-screen overflow-hidden bg-[#05030f] text-white">
+      <div className="aurora pointer-events-none absolute inset-0 opacity-90">
+        <div className="absolute -left-44 top-[-260px] h-[660px] w-[660px] rounded-full bg-[radial-gradient(circle,_rgba(34,211,238,0.34)_0%,_rgba(34,211,238,0.08)_42%,_transparent_72%)] blur-3xl" />
+        <div className="absolute right-[-220px] top-14 h-[760px] w-[760px] rounded-full bg-[radial-gradient(circle,_rgba(168,85,247,0.42)_0%,_rgba(99,102,241,0.12)_44%,_transparent_74%)] blur-3xl" />
+      </div>
+      <div className="pointer-events-none absolute inset-0 bg-[linear-gradient(to_right,rgba(255,255,255,0.04)_1px,transparent_1px),linear-gradient(to_bottom,rgba(255,255,255,0.04)_1px,transparent_1px)] bg-[size:72px_72px] [mask-image:radial-gradient(ellipse_at_top,black_34%,transparent_74%)]" />
+      <div className="relative z-10">
+        <nav className="mx-auto flex max-w-7xl items-center justify-between px-6 py-5">
+          <Link href="/" className="flex items-center gap-3">
+            <span className="grid h-9 w-9 place-items-center rounded-xl border border-white/15 bg-white/10 shadow-[0_0_35px_rgba(34,211,238,0.25)] backdrop-blur">✦</span>
+            <span className="text-lg font-semibold tracking-tight">PromptForge Studio</span>
+          </Link>
+          <div className="hidden items-center gap-2 rounded-full border border-white/10 bg-white/[0.06] p-1 text-sm text-white/70 backdrop-blur-xl md:flex">
+            <Link href="/browse" className="rounded-full px-4 py-2 transition hover:bg-white/10 hover:text-white">Explore</Link>
+            <Link href="/marketplace" className="rounded-full px-4 py-2 transition hover:bg-white/10 hover:text-white">Marketplace</Link>
+            <Link href="/dashboard" className="rounded-full bg-white px-4 py-2 font-medium text-slate-950">Dashboard</Link>
+            <Link href="/create" className="rounded-full border border-cyan-200/25 bg-cyan-300/10 px-4 py-2 font-medium text-cyan-100 transition hover:bg-cyan-300/20">Create</Link>
+          </div>
+        </nav>
+        {children}
+      </div>
+    </div>
+  );
+}
 
 export const dynamic = 'force-dynamic';
 
 export default async function DashboardPromptsPage() {
-  const prompts = await prisma.prompt.findMany({
-    where: { ownerId: 'user_creator' },
-    include: { versions: { take: 1, orderBy: { version: 'desc' } } },
-    orderBy: { updatedAt: 'desc' },
-    take: 20,
-  });
-
-  return (
-    <div className="min-h-screen">
-      <nav className="border-b px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl text-primary">PromptForge Studio</Link>
-        <div className="flex gap-4">
-          <Link href="/browse" className="text-sm hover:text-primary">Explore</Link>
-          <Link href="/marketplace" className="text-sm hover:text-primary">Marketplace</Link>
-          <Link href="/dashboard" className="text-sm font-medium text-primary">Dashboard</Link>
-          <Link href="/create" className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm">Create</Link>
-        </div>
-      </nav>
-
-      <div className="max-w-6xl mx-auto px-6 py-8">
-        <div className="flex items-center justify-between mb-8">
-          <h1 className="text-2xl font-bold">My Prompts</h1>
-          <Link href="/create" className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm">+ New Prompt</Link>
-        </div>
-
-        <div className="border rounded-xl overflow-hidden">
-          {prompts.length === 0 && (
-            <div className="text-center py-16 text-muted-foreground">No prompts yet. Create your first one!</div>
-          )}
-          {prompts.map((prompt) => (
-            <div key={prompt.id} className="border-b last:border-0 px-6 py-4 flex items-center justify-between hover:bg-accent/30 transition-colors">
-              <div>
-                <Link href={`/prompts/${prompt.id}`} className="font-medium hover:text-primary">{prompt.title}</Link>
-                <div className="flex items-center gap-3 mt-1">
-                  <span className="text-xs px-2 py-0.5 bg-secondary rounded">{prompt.status}</span>
-                  <span className="text-xs text-muted-foreground">v{prompt.versions[0]?.version ?? 1}</span>
-                  <span className="text-xs text-muted-foreground">{prompt.viewCount} views</span>
-                </div>
-              </div>
-              <div className="flex gap-4 items-center">
-                <Link href={`/editor/${prompt.id}`} className="text-sm text-primary">Edit</Link>
-                <Link href={`/prompts/${prompt.id}`} className="text-sm text-muted-foreground">View</Link>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    </div>
-  );
+  let prompts: any[];
+  try {
+    prompts = await prisma.prompt.findMany({ where: { ownerId: 'user_creator' }, include: { versions: { take: 1, orderBy: { version: 'desc' } } }, orderBy: { updatedAt: 'desc' }, take: 20 });
+  } catch {
+    prompts = previewPrompts.slice(0, 12).map((p, i) => ({ ...p, versions: [{ version: i + 1 }] }));
+  }
+  return <DashboardChrome><main className="mx-auto max-w-7xl px-6 pb-24 pt-14"><div className="mb-8 flex items-end justify-between"><div><div className="text-sm uppercase tracking-[0.35em] text-cyan-200/70">Creator Library</div><h1 className="mt-2 text-5xl font-semibold tracking-[-0.055em]">My Prompts</h1><p className="mt-3 text-slate-400">Manage prompt systems, status, versions and public previews.</p></div><Link href="/create" className="rounded-full bg-white px-5 py-3 text-sm font-semibold text-slate-950">+ New Prompt</Link></div><div className="overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/[0.055] backdrop-blur-xl">{prompts.map((prompt) => <div key={prompt.id} className="flex items-center justify-between border-b border-white/10 px-6 py-4 last:border-0 hover:bg-white/[0.04]"><div><Link href={`/prompts/${prompt.id}`} className="font-semibold text-white hover:text-cyan-100">{prompt.title}</Link><div className="mt-2 flex gap-3 text-xs text-slate-400"><span className="rounded-full bg-emerald-400/10 px-2 py-1 text-emerald-200">{prompt.status}</span><span>v{prompt.versions?.[0]?.version ?? 1}</span><span>{prompt.viewCount} views</span></div></div><div className="flex gap-4 text-sm"><Link href={`/editor/${prompt.id}`} className="text-cyan-200">Edit</Link><Link href={`/prompts/${prompt.id}`} className="text-slate-400">View</Link></div></div>)}</div></main></DashboardChrome>;
 }
