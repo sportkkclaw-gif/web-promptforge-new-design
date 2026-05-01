@@ -1836,6 +1836,14 @@
       "home_link": "← 返回首頁 -> /",
       "verified_at": "2026-05-01T21:03+08:00",
       "commit": "e3580d0"
+    },
+    "cinematic_homepage_redesign": {
+      "status": "verified",
+      "preview_url": "https://promptforge-studio-ginr84o12-sportkk101-5719s-projects.vercel.app/",
+      "style": "professional dark cinematic aurora/glass prompt-platform homepage",
+      "verified_at": "2026-05-01T21:14+08:00",
+      "commit": "b08cd6a",
+      "checks": "local tsc/build PASS; PR checks PASS; browser vision confirmed non-white professional dark style"
     }
   },
   "repo_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design",

@@ -36,3 +36,9 @@
 - Preview： https://promptforge-studio-ksounkj3l-sportkk101-5719s-projects.vercel.app/generator/default-template
 - 驗證：Vercel READY；PR checks ESLint / Type Check / Contract Checks / Build / Vercel 全部 SUCCESS；Browser 點擊後成功回首頁。
 
+## 2026-05-01 首頁專業深色炫光改版
+- 修正頁面：`/` 首頁
+- 風格：深色劇院級背景、藍紫 aurora 炫光、玻璃擬態 Prompt Canvas、專業 Prompt Marketplace 展示卡。
+- Preview： https://promptforge-studio-ginr84o12-sportkk101-5719s-projects.vercel.app/
+- 驗證：本機 typecheck/build PASS；PR checks 全部 SUCCESS；Browser vision 確認已非白底且呈現專業深色提示詞網站風格。
+
