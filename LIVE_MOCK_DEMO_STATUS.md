@@ -56,3 +56,10 @@
 - Preview： https://promptforge-studio-jc00d6ej5-sportkk101-5719s-projects.vercel.app/dashboard
 - 驗證：本機 typecheck/build PASS；cloud route audit 7/7 HTTP 200；無 `Something went wrong`；Browser vision 確認 My Prompts 為深色專業控制台。
 
+## 2026-05-01 提示生成器工作區深色專業改版
+- 修正頁面：`/generator/default-template`
+- 問題：原頁為全白表單，與首頁 / Marketplace / Dashboard 的深色專業風格不一致。
+- 修正：改為 `Generate Command Deck` 深色炫光控制台，含玻璃擬態輸入卡、Prompt Quality Stack、Live Preview、Workflow 區塊。
+- Preview： https://promptforge-studio-5nwa03plf-sportkk101-5719s-projects.vercel.app/generator/default-template
+- 驗證：本機 typecheck/build PASS；cloud HTTP 200；舊白頁 token 不存在；Browser vision 確認已非白底且風格一致。
+

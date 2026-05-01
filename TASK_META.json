@@ -1870,6 +1870,15 @@
       "verified_at": "2026-05-01T21:44+08:00",
       "commit": "d2430f0",
       "checks": "local tsc/build PASS; cloud route audit 7/7 HTTP 200; no Something went wrong; PR checks PASS"
+    },
+    "generator_workspace_dark_redesign": {
+      "status": "verified",
+      "preview_url": "https://promptforge-studio-5nwa03plf-sportkk101-5719s-projects.vercel.app/generator/default-template",
+      "route": "/generator/default-template",
+      "fix": "Converted generator workspace from white minimalist form to dark professional command deck matching homepage/marketplace/dashboard.",
+      "verified_at": "2026-05-01T21:55+08:00",
+      "commit": "953ba25",
+      "checks": "local tsc/build PASS; cloud route HTTP 200; old white tokens absent; browser vision confirmed dark professional style"
     }
   },
   "repo_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design",
