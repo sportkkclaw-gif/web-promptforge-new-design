@@ -42,3 +42,10 @@
 - Preview： https://promptforge-studio-ginr84o12-sportkk101-5719s-projects.vercel.app/
 - 驗證：本機 typecheck/build PASS；PR checks 全部 SUCCESS；Browser vision 確認已非白底且呈現專業深色提示詞網站風格。
 
+## 2026-05-01 Marketplace 專業深色改版
+- 修正頁面：`/marketplace`
+- 風格：延續首頁深色劇院級背景、藍紫 aurora 炫光、玻璃擬態導覽與 marketplace cards。
+- 圖片：卡片改用 `/demo-covers/prompt_001.svg` ~ `/demo-covers/prompt_024.svg`，不再是灰底 placeholder。
+- Preview： https://promptforge-studio-8y0fv35yz-sportkk101-5719s-projects.vercel.app/marketplace
+- 驗證：本機 typecheck/build PASS；PR checks 全部 SUCCESS；Browser 24/24 images loaded、0 broken；Browser vision 確認已非白底 placeholder。
+

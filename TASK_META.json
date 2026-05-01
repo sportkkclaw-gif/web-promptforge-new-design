@@ -1844,6 +1844,14 @@
       "verified_at": "2026-05-01T21:14+08:00",
       "commit": "b08cd6a",
       "checks": "local tsc/build PASS; PR checks PASS; browser vision confirmed non-white professional dark style"
+    },
+    "marketplace_professional_redesign": {
+      "status": "verified",
+      "preview_url": "https://promptforge-studio-8y0fv35yz-sportkk101-5719s-projects.vercel.app/marketplace",
+      "style": "professional dark aurora/glass marketplace with real local demo cover images",
+      "verified_at": "2026-05-01T21:26+08:00",
+      "commit": "caac4c3",
+      "checks": "local tsc/build PASS; PR checks PASS; browser confirms 24/24 images loaded, 0 broken; vision confirms not white placeholder"
     }
   },
   "repo_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design",
