@@ -9,7 +9,7 @@
   "next_event": null,
   "trace_id": "20260427_ai_promptforge_new_design_plan_mockups-1777290861",
   "created_at": "2026-04-27T19:54:21+08:00",
-  "updated_at": "2026-05-01T20:10:33+08:00",
+  "updated_at": "2026-05-01T20:52:00+08:00",
   "references": [
     "https://civitai.com/",
     "https://prompthero.com/",
@@ -974,7 +974,11 @@
         "which psql / which pg_isready => not found",
         "ss -ltn :5432 => no listener"
       ]
-    }
+    },
+    "2026-05-01: pushed acceptance branch acceptance/2026-05-01-promptforge-showcase-fix",
+    "2026-05-01: opened PR #2 for PromptForge showcase cover repair and cloud readiness",
+    "2026-05-01: Vercel Preview ready and probed: /, /browse, /browse?category=logo, /prompts/prompt_016, /demo-covers/prompt_016.svg all HTTP 200",
+    "2026-05-01: GitHub checks green: ESLint, Type Check, Contract Checks, Build, Vercel"
   ],
   "verification": {
     "latest_round": {
@@ -1806,7 +1810,7 @@
   },
   "mock_demo": {
     "status": "running",
-    "mode": "mock_local_demo_only_not_qc",
+    "mode": "cloud mock showcase + local mock demo",
     "url": "http://127.0.0.1:3128/browse",
     "process_session": "proc_727c6500dd3f",
     "demo_account": "jason.mock.demo@promptforge.local",
@@ -1815,8 +1819,20 @@
       "/browse",
       "/prompts/prompt_016"
     ],
-    "image_check": "24 local demo-cover SVGs generated; /browse 24/24 loaded 0 broken; detail 3/3 loaded 0 broken; src paths /demo-covers/*.svg, no data URI gradient text placeholders",
+    "image_check": "24 local SVG covers under /demo-covers/*.svg; no data URI text placeholders",
     "category_check": "left sidebar links server-rendered; URL/results change on click",
-    "note": "Windows browser opened to fixed browse page; images are local mock/demo illustrations, not formal AI-generated production assets."
-  }
+    "note": "Windows browser opened to fixed browse page; images are local mock/demo illustrations, not formal AI-generated production assets.",
+    "local_url": "http://127.0.0.1:3128/browse",
+    "preview_url": "https://promptforge-studio-oscnhe2zm-sportkk101-5719s-projects.vercel.app/browse",
+    "browser_verification": {
+      "cloud_browse": "24/24 images loaded, 0 broken, src /demo-covers/*.svg",
+      "cloud_detail_prompt_016": "4/4 images loaded, 0 broken, src /demo-covers/prompt_016.svg",
+      "category_logo": "HTTP 200, 2 images, 0 broken in HTTP probe"
+    },
+    "limitations": "Mock/showcase preview only. Formal Simon/QC remains blocked until DATABASE_URL, AUTH_SECRET/AUTH_URL, OpenAI, Anthropic, Stripe, Elasticsearch, Resend, Sentry envs are provided and H1-H10 verify:cloud passes."
+  },
+  "repo_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design",
+  "pr_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design/pull/2",
+  "preview_url": "https://promptforge-studio-oscnhe2zm-sportkk101-5719s-projects.vercel.app",
+  "cloud_preview_status": "mock_showcase_ready_external_secrets_block_formal_qc"
 }
