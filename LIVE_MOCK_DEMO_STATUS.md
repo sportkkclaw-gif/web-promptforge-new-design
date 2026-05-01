@@ -1,13 +1,27 @@
 # PromptForge Mock / Cloud Showcase 狀態
 
-- updated_at: 2026-05-01T20:52:00+08:00
-- mode: Mock/local + Vercel Preview showcase only
-- local URL: http://127.0.0.1:3128/browse
-- cloud Preview: https://promptforge-studio-oscnhe2zm-sportkk101-5719s-projects.vercel.app/browse
+- updated_at: 2026-05-01T23:13:21+08:00
+- mode: Supabase DB-backed Vercel Preview + Mock AI provider
+- cloud Preview: https://promptforge-studio-f4z8uf7k3-sportkk101-5719s-projects.vercel.app
 - GitHub repo: https://github.com/sportkkclaw-gif/web-promptforge-new-design
 - PR: https://github.com/sportkkclaw-gif/web-promptforge-new-design/pull/2
-- database: local PostgreSQL seeded for local demo; cloud preview uses read-only fallback showcase data when provider DB secrets are absent
-- demo_account: jason.mock.demo@promptforge.local / Demo12345!（local only）
+- database: Supabase `promptforge-ai-preview` 已 force-reset schema 並 seed；DATABASE_URL 僅存本機安全檔 `/home/sport/.hermes/promptforge.production.env`
+- ai_provider: `USE_MOCK_AI=true`；OpenAI/Anthropic 等第三方 key 仍為 Preview placeholder，待 Jason 後續逐步提供真實 key
+
+## 2026-05-01 Supabase Preview DB + H1-H10 Cloud Verification
+- Jason 已核准重置 Preview DB。
+- `prisma db push --force-reset --skip-generate` PASS。
+- `prisma generate` PASS。
+- `npm run db:seed` PASS：Plans 4、Users 5、Workspaces 1、Categories 10、Prompts 24、Prompt Assets 72、Marketplace Items 8、Generation Outputs 24。
+- Vercel Preview env 已寫入 branch `acceptance/2026-05-01-promptforge-showcase-fix`：DATABASE_URL、AUTH_SECRET/NEXTAUTH_SECRET、AUTH_URL、USE_MOCK_AI/NEXT_PUBLIC_MOCK_AI 與 provider placeholders。
+- 最新 Preview： https://promptforge-studio-f4z8uf7k3-sportkk101-5719s-projects.vercel.app
+- `npm run verify:cloud` PASS：H1-H10 10/10（H10 無專用 health endpoint，依 harness 規則 SKIP 但通過）。
+- Browser `/browse`：24/24 images loaded，0 broken，24 cards，無 app error。
+- Browser `/dashboard`：6 module cards，無 `Something went wrong` / `Application error`。
+
+## 目前限制
+- Cloud DB foundation 已完成，但 OpenAI、Anthropic、Stripe、Resend、Sentry、Elasticsearch 仍未替換成真實 production keys。
+- 生成 AI 目前走 Mock AI，用於 Preview 驗證；正式 provider 驗收需後續逐一接入真實 keys。
 
 ## 已修正
 - Browse 卡片已改為 24 張本機圖像縮圖：`/demo-covers/prompt_001.svg` ~ `/demo-covers/prompt_024.svg`。
