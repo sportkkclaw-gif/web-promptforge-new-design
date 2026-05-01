@@ -33,7 +33,8 @@ const CATEGORY_LINKS = [
 ] as const;
 
 function demoCoverPath(prompt: { id: string }) {
-  return `/demo-covers/${prompt.id}.jpg`;
+  const id = /^prompt_\d{3}$/.test(prompt.id) ? prompt.id : 'prompt_001';
+  return `/demo-covers/${id}.jpg`;
 }
 
 export default async function BrowsePage({ searchParams }: { searchParams: { q?: string; category?: string; page?: string } }) {

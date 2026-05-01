@@ -5,7 +5,10 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 function demoCoverPath(item: { prompt: { id: string; assets?: Array<{ url: string }> } }) {
-  return item.prompt.assets?.[0]?.url || `/demo-covers/${item.prompt.id}.jpg`;
+  const assetUrl = item.prompt.assets?.[0]?.url;
+  if (assetUrl?.startsWith('/demo-covers/prompt_')) return assetUrl;
+  const id = /^prompt_\d{3}$/.test(item.prompt.id) ? item.prompt.id : 'prompt_001';
+  return `/demo-covers/${id}.jpg`;
 }
 
 export default async function MarketplacePage() {
