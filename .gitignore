@@ -19,8 +19,9 @@ build/
 *.sqlite
 *.sqlite3
 
-# Vercel
+# Vercel / Supabase local state
 .vercel/
+supabase/.temp/
 
 # Misc
 .DS_Store
