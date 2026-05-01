@@ -49,3 +49,10 @@
 - Preview： https://promptforge-studio-8y0fv35yz-sportkk101-5719s-projects.vercel.app/marketplace
 - 驗證：本機 typecheck/build PASS；PR checks 全部 SUCCESS；Browser 24/24 images loaded、0 broken；Browser vision 確認已非白底 placeholder。
 
+## 2026-05-01 Dashboard 子頁錯誤修復＋專業深色改版
+- 修正頁面：`/dashboard`、`/dashboard/prompts`、`/dashboard/generations`、`/dashboard/collections`、`/dashboard/analytics`、`/dashboard/team`、`/settings/billing`
+- 根因：部分 dashboard 子頁直接查 Prisma，cloud/mock preview 無完整 DB 資料時會 500，顯示 `Something went wrong`。
+- 修正：Prisma 子頁加入 preview fallback；全部 dashboard/billing 頁統一深色專業控制台風格。
+- Preview： https://promptforge-studio-jc00d6ej5-sportkk101-5719s-projects.vercel.app/dashboard
+- 驗證：本機 typecheck/build PASS；cloud route audit 7/7 HTTP 200；無 `Something went wrong`；Browser vision 確認 My Prompts 為深色專業控制台。
+
