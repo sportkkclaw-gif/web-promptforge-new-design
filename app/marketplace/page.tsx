@@ -5,7 +5,7 @@ import Link from 'next/link';
 export const dynamic = 'force-dynamic';
 
 function demoCoverPath(item: { prompt: { id: string; assets?: Array<{ url: string }> } }) {
-  return item.prompt.assets?.[0]?.url || `/demo-covers/${item.prompt.id}.svg`;
+  return item.prompt.assets?.[0]?.url || `/demo-covers/${item.prompt.id}.jpg`;
 }
 
 export default async function MarketplacePage() {

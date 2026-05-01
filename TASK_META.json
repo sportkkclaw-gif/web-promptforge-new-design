@@ -9,7 +9,7 @@
   "next_event": null,
   "trace_id": "20260427_ai_promptforge_new_design_plan_mockups-1777290861",
   "created_at": "2026-04-27T19:54:21+08:00",
-  "updated_at": "2026-05-01T23:13:21+08:00",
+  "updated_at": "2026-05-01T23:50:43+08:00",
   "references": [
     "https://civitai.com/",
     "https://prompthero.com/",
@@ -17,9 +17,9 @@
   ],
   "user_gate": "APPROVED_BY_JASON: 已核准依收斂版 MVP UI 撰寫詳細開發案；可 plan.ready 給 Sebastian。",
   "required_mockups": [
-    "mockups_mvp_simplified/mockup_01_template_library_mvp_with_image_prompts.png",
-    "mockups_mvp_simplified/mockup_02_prompt_generator_mvp.png",
-    "mockups_mvp_simplified/mockup_03_template_admin_mvp.png"
+    "mockups_mvp_simplified/mockup_01_template_library_mvp_with_image_prompts.jpg",
+    "mockups_mvp_simplified/mockup_02_prompt_generator_mvp.jpg",
+    "mockups_mvp_simplified/mockup_03_template_admin_mvp.jpg"
   ],
   "must_use_image_generation": false,
   "must_not_dispatch_to_development_until_user_ok": false,
@@ -161,18 +161,18 @@
   "mockups": [
     {
       "title": "首頁 / Marketplace Home",
-      "path": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/mockup_home.png",
-      "source": "/home/sport/.hermes/profiles/sophie/cache/images/openai_codex_gpt-image-2-medium_20260427_195835_5a28f691.png"
+      "path": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/mockup_home.jpg",
+      "source": "/home/sport/.hermes/profiles/sophie/cache/images/openai_codex_gpt-image-2-medium_20260427_195835_5a28f691.jpg"
     },
     {
       "title": "功能頁一：探索 / 瀑布流 / 搜尋篩選",
-      "path": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/mockup_explore.png",
-      "source": "/home/sport/.hermes/profiles/sophie/cache/images/openai_codex_gpt-image-2-medium_20260427_200016_51ba43dd.png"
+      "path": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/mockup_explore.jpg",
+      "source": "/home/sport/.hermes/profiles/sophie/cache/images/openai_codex_gpt-image-2-medium_20260427_200016_51ba43dd.jpg"
     },
     {
       "title": "功能頁二：Prompt detail / 生成參數 / 一鍵套用",
-      "path": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/mockup_detail.png",
-      "source": "/home/sport/.hermes/profiles/sophie/cache/images/openai_codex_gpt-image-2-medium_20260427_200306_7077cf90.png"
+      "path": "/home/sport/WORK/AGENTS/01_選題池/sophie_research/20260427_ai_promptforge_new_design_plan_mockups/mockup_detail.jpg",
+      "source": "/home/sport/.hermes/profiles/sophie/cache/images/openai_codex_gpt-image-2-medium_20260427_200306_7077cf90.jpg"
     }
   ],
   "active_implementation_task": "/home/sport/WORK/AGENTS/03_待驗收/sebastian/20260428_promptforge_full_product_rebuild_v2",
@@ -203,9 +203,9 @@
       "by": "Hermes系統管理員",
       "summary": "依使用者回饋替換 PromptForge Mock 展示圖：由漸層文字佔位改為 24 張本機主題 SVG demo cover，Browse/Detail 均接本機圖。",
       "evidence": [
-        "public/demo-covers/prompt_001.svg~prompt_024.svg generated",
+        "public/demo-covers/prompt_001.jpg~prompt_024.jpg generated",
         "node --run build PASS",
-        "/browse 24/24 images loaded 0 broken; src=/demo-covers/*.svg",
+        "/browse 24/24 images loaded 0 broken; src=/demo-covers/*.jpg",
         "/prompts/prompt_016 detail 3/3 images loaded 0 broken",
         "LIVE_MOCK_DEMO_STATUS.md updated"
       ],
@@ -992,7 +992,7 @@
     },
     "2026-05-01: pushed acceptance branch acceptance/2026-05-01-promptforge-showcase-fix",
     "2026-05-01: opened PR #2 for PromptForge showcase cover repair and cloud readiness",
-    "2026-05-01: Vercel Preview ready and probed: /, /browse, /browse?category=logo, /prompts/prompt_016, /demo-covers/prompt_016.svg all HTTP 200",
+    "2026-05-01: Vercel Preview ready and probed: /, /browse, /browse?category=logo, /prompts/prompt_016, /demo-covers/prompt_016.jpg all HTTP 200",
     "2026-05-01: GitHub checks green: ESLint, Type Check, Contract Checks, Build, Vercel"
   ],
   "verification": {
@@ -1013,6 +1013,12 @@
     }
   },
   "workflow_history": [
+    {
+      "at": "2026-05-01T23:50:43+08:00",
+      "by": "sebastian-op-cron",
+      "action": "supagent_audit_and_controller_reverify_cloud_blockers_unchanged",
+      "summary": "SUPAGENT-first rerun: cloud:contract PASS, cloud:readiness exit 0, verify:cloud exit 1 (missing 10/10 required production env vars), build PASS (86/86). External blocker unchanged; gates remain false."
+    },
     {
       "at": "2026-04-28T00:13:37+08:00",
       "by": "sebastian",
@@ -1834,14 +1840,14 @@
       "/browse",
       "/prompts/prompt_016"
     ],
-    "image_check": "24 local SVG covers under /demo-covers/*.svg; no data URI text placeholders",
+    "image_check": "24 local SVG covers under /demo-covers/*.jpg; no data URI text placeholders",
     "category_check": "left sidebar links server-rendered; URL/results change on click",
     "note": "Windows browser opened to fixed browse page; images are local mock/demo illustrations, not formal AI-generated production assets.",
     "local_url": "http://127.0.0.1:3128/browse",
     "preview_url": "https://promptforge-studio-oscnhe2zm-sportkk101-5719s-projects.vercel.app/browse",
     "browser_verification": {
-      "cloud_browse": "24/24 images loaded, 0 broken, src /demo-covers/*.svg",
-      "cloud_detail_prompt_016": "4/4 images loaded, 0 broken, src /demo-covers/prompt_016.svg",
+      "cloud_browse": "24/24 images loaded, 0 broken, src /demo-covers/*.jpg",
+      "cloud_detail_prompt_016": "4/4 images loaded, 0 broken, src /demo-covers/prompt_016.jpg",
       "category_logo": "HTTP 200, 2 images, 0 broken in HTTP probe"
     },
     "limitations": "Mock/showcase preview only. Formal Simon/QC remains blocked until DATABASE_URL, AUTH_SECRET/AUTH_URL, OpenAI, Anthropic, Stripe, Elasticsearch, Resend, Sentry envs are provided and H1-H10 verify:cloud passes.",

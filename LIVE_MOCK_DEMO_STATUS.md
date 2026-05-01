@@ -24,7 +24,7 @@
 - 生成 AI 目前走 Mock AI，用於 Preview 驗證；正式 provider 驗收需後續逐一接入真實 keys。
 
 ## 已修正
-- Browse 卡片已改為 24 張本機圖像縮圖：`/demo-covers/prompt_001.svg` ~ `/demo-covers/prompt_024.svg`。
+- Browse 卡片已改為 24 張本機圖像縮圖：`/demo-covers/prompt_001.jpg` ~ `/demo-covers/prompt_024.jpg`。
 - 不再使用只有 PromptForge 文字的漸層佔位圖。
 - 不依賴外部圖片 CDN，避免破圖或網路載入失敗。
 - Prompt 詳情頁 cover/sample images 也改接本機 demo cover。
@@ -36,7 +36,7 @@
 - Cloud `/browse` HTTP 200，圖片 24/24 loaded，0 broken。
 - Cloud `/browse?category=logo` HTTP 200，類別篩選有變更結果。
 - Cloud `/prompts/prompt_016` HTTP 200，圖片 4/4 loaded，0 broken。
-- Cloud image src 皆為 `/demo-covers/*.svg`，非 `data:image/svg+xml` 文字佔位。
+- Cloud image src 皆為 `/demo-covers/*.jpg`，非 `data:image/svg+xml` 文字佔位。
 
 ## 限制
 - 此為 Mock/showcase Preview，不是正式 QC/final product。
@@ -59,7 +59,7 @@
 ## 2026-05-01 Marketplace 專業深色改版
 - 修正頁面：`/marketplace`
 - 風格：延續首頁深色劇院級背景、藍紫 aurora 炫光、玻璃擬態導覽與 marketplace cards。
-- 圖片：卡片改用 `/demo-covers/prompt_001.svg` ~ `/demo-covers/prompt_024.svg`，不再是灰底 placeholder。
+- 圖片：卡片改用 `/demo-covers/prompt_001.jpg` ~ `/demo-covers/prompt_024.jpg`，不再是灰底 placeholder。
 - Preview： https://promptforge-studio-8y0fv35yz-sportkk101-5719s-projects.vercel.app/marketplace
 - 驗證：本機 typecheck/build PASS；PR checks 全部 SUCCESS；Browser 24/24 images loaded、0 broken；Browser vision 確認已非白底 placeholder。
 

@@ -1,12 +1,26 @@
 # NEXT_STEP — 20260428_promptforge_full_product_rebuild_v2
 
-updated_at: 2026-05-01T18:58:31+08:00
+updated_at: 2026-05-01T23:58:00+08:00
 status: returned_for_fix
 current_lane: 04_打回修改/sebastian
 next_agent: sebastian
 next_event: null
 internal_next_action: await_secure_cloud_secret_injection_then_run_cloud_contract_readiness_verify_cloud_for_h1_h10
 simon_verdict: review.rejected
+
+## 2026-05-01T23:58:00+08:00 真實風格縮圖修正
+1. 使用 Hermes image_gen/OpenAI Codex 生成 24 張真實風格 Prompt marketplace cover。
+2. 已替換 `/demo-covers/prompt_001.jpg` ~ `/demo-covers/prompt_024.jpg`；前端 Browse/Detail/Marketplace/preview-data 改用 `.jpg`。
+3. Supabase Preview DB `PromptAsset.url` 已同步由 `.svg/.png` 更新為 `.jpg`。
+4. 本機 `npx tsc --noEmit -p tsconfig.typecheck.json` PASS；`npm run build` PASS（86/86）。
+5. 下一步：commit/push、Vercel Preview redeploy、browser 驗證圖片皆為 jpg 並無破圖。
+
+## 2026-05-01T23:50:43+08:00 本輪續作
+1. SUPAGENT-first 重跑：`cloud:contract` PASS、`cloud:readiness` exit 0（缺 10/10 required env）、`verify:cloud` exit 1、`build` PASS（86/86）。
+2. 阻塞未變：DATABASE_URL/AUTH_SECRET/AUTH_URL/OPENAI_API_KEY/ANTHROPIC_API_KEY/STRIPE_SECRET_KEY/SENTRY_DSN/ELASTICSEARCH_URL/ELASTICSEARCH_API_KEY/RESEND_API_KEY。
+3. 仍無可執行內部 P0：remaining_p0_count=17。
+4. Gate 維持：`all_must_fix_completed=false`、`ready_for_build_ready=false`。
+5. 下一最小可執行項：完成 secrets 安全注入後重跑 `cloud:contract`→`cloud:readiness`→`BASE_URL=<url> node --run verify:cloud`。
 
 ## 2026-05-01T18:58:31+08:00 本輪續作
 1. SUPAGENT-first 稽核：`cloud:contract` PASS；`cloud:readiness` 報 10/10 required env 缺失；`verify:cloud` exit 1；`build` PASS（86/86）。

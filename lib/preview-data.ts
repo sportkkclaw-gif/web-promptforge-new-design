@@ -44,19 +44,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_001_1",
         "type": "sample",
         "alt": "Ultra-Realistic Product Shot sample 1",
-        "url": "/demo-covers/prompt_001.svg"
+        "url": "/demo-covers/prompt_001.jpg"
       },
       {
         "id": "asset_prompt_001_2",
         "type": "sample",
         "alt": "Ultra-Realistic Product Shot sample 2",
-        "url": "/demo-covers/prompt_001.svg"
+        "url": "/demo-covers/prompt_001.jpg"
       },
       {
         "id": "asset_prompt_001_3",
         "type": "sample",
         "alt": "Ultra-Realistic Product Shot sample 3",
-        "url": "/demo-covers/prompt_001.svg"
+        "url": "/demo-covers/prompt_001.jpg"
       }
     ],
     "promptTags": [],
@@ -87,19 +87,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_002_1",
         "type": "sample",
         "alt": "Cyberpunk City Nightscape sample 1",
-        "url": "/demo-covers/prompt_002.svg"
+        "url": "/demo-covers/prompt_002.jpg"
       },
       {
         "id": "asset_prompt_002_2",
         "type": "sample",
         "alt": "Cyberpunk City Nightscape sample 2",
-        "url": "/demo-covers/prompt_002.svg"
+        "url": "/demo-covers/prompt_002.jpg"
       },
       {
         "id": "asset_prompt_002_3",
         "type": "sample",
         "alt": "Cyberpunk City Nightscape sample 3",
-        "url": "/demo-covers/prompt_002.svg"
+        "url": "/demo-covers/prompt_002.jpg"
       }
     ],
     "promptTags": [],
@@ -130,19 +130,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_003_1",
         "type": "sample",
         "alt": "Fantasy RPG Character Portrait sample 1",
-        "url": "/demo-covers/prompt_003.svg"
+        "url": "/demo-covers/prompt_003.jpg"
       },
       {
         "id": "asset_prompt_003_2",
         "type": "sample",
         "alt": "Fantasy RPG Character Portrait sample 2",
-        "url": "/demo-covers/prompt_003.svg"
+        "url": "/demo-covers/prompt_003.jpg"
       },
       {
         "id": "asset_prompt_003_3",
         "type": "sample",
         "alt": "Fantasy RPG Character Portrait sample 3",
-        "url": "/demo-covers/prompt_003.svg"
+        "url": "/demo-covers/prompt_003.jpg"
       }
     ],
     "promptTags": [],
@@ -173,19 +173,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_004_1",
         "type": "sample",
         "alt": "Minimalist Logo Generator sample 1",
-        "url": "/demo-covers/prompt_004.svg"
+        "url": "/demo-covers/prompt_004.jpg"
       },
       {
         "id": "asset_prompt_004_2",
         "type": "sample",
         "alt": "Minimalist Logo Generator sample 2",
-        "url": "/demo-covers/prompt_004.svg"
+        "url": "/demo-covers/prompt_004.jpg"
       },
       {
         "id": "asset_prompt_004_3",
         "type": "sample",
         "alt": "Minimalist Logo Generator sample 3",
-        "url": "/demo-covers/prompt_004.svg"
+        "url": "/demo-covers/prompt_004.jpg"
       }
     ],
     "promptTags": [],
@@ -216,19 +216,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_005_1",
         "type": "sample",
         "alt": "Anime Girl School Uniform sample 1",
-        "url": "/demo-covers/prompt_005.svg"
+        "url": "/demo-covers/prompt_005.jpg"
       },
       {
         "id": "asset_prompt_005_2",
         "type": "sample",
         "alt": "Anime Girl School Uniform sample 2",
-        "url": "/demo-covers/prompt_005.svg"
+        "url": "/demo-covers/prompt_005.jpg"
       },
       {
         "id": "asset_prompt_005_3",
         "type": "sample",
         "alt": "Anime Girl School Uniform sample 3",
-        "url": "/demo-covers/prompt_005.svg"
+        "url": "/demo-covers/prompt_005.jpg"
       }
     ],
     "promptTags": [],
@@ -259,19 +259,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_006_1",
         "type": "sample",
         "alt": "Luxury Perfume Ad Campaign sample 1",
-        "url": "/demo-covers/prompt_006.svg"
+        "url": "/demo-covers/prompt_006.jpg"
       },
       {
         "id": "asset_prompt_006_2",
         "type": "sample",
         "alt": "Luxury Perfume Ad Campaign sample 2",
-        "url": "/demo-covers/prompt_006.svg"
+        "url": "/demo-covers/prompt_006.jpg"
       },
       {
         "id": "asset_prompt_006_3",
         "type": "sample",
         "alt": "Luxury Perfume Ad Campaign sample 3",
-        "url": "/demo-covers/prompt_006.svg"
+        "url": "/demo-covers/prompt_006.jpg"
       }
     ],
     "promptTags": [],
@@ -302,19 +302,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_007_1",
         "type": "sample",
         "alt": "Architectural Visualization Modern Villa sample 1",
-        "url": "/demo-covers/prompt_007.svg"
+        "url": "/demo-covers/prompt_007.jpg"
       },
       {
         "id": "asset_prompt_007_2",
         "type": "sample",
         "alt": "Architectural Visualization Modern Villa sample 2",
-        "url": "/demo-covers/prompt_007.svg"
+        "url": "/demo-covers/prompt_007.jpg"
       },
       {
         "id": "asset_prompt_007_3",
         "type": "sample",
         "alt": "Architectural Visualization Modern Villa sample 3",
-        "url": "/demo-covers/prompt_007.svg"
+        "url": "/demo-covers/prompt_007.jpg"
       }
     ],
     "promptTags": [],
@@ -345,19 +345,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_008_1",
         "type": "sample",
         "alt": "Vintage Travel Poster sample 1",
-        "url": "/demo-covers/prompt_008.svg"
+        "url": "/demo-covers/prompt_008.jpg"
       },
       {
         "id": "asset_prompt_008_2",
         "type": "sample",
         "alt": "Vintage Travel Poster sample 2",
-        "url": "/demo-covers/prompt_008.svg"
+        "url": "/demo-covers/prompt_008.jpg"
       },
       {
         "id": "asset_prompt_008_3",
         "type": "sample",
         "alt": "Vintage Travel Poster sample 3",
-        "url": "/demo-covers/prompt_008.svg"
+        "url": "/demo-covers/prompt_008.jpg"
       }
     ],
     "promptTags": [],
@@ -388,19 +388,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_009_1",
         "type": "sample",
         "alt": "Sci-Fi Mech Warrior sample 1",
-        "url": "/demo-covers/prompt_009.svg"
+        "url": "/demo-covers/prompt_009.jpg"
       },
       {
         "id": "asset_prompt_009_2",
         "type": "sample",
         "alt": "Sci-Fi Mech Warrior sample 2",
-        "url": "/demo-covers/prompt_009.svg"
+        "url": "/demo-covers/prompt_009.jpg"
       },
       {
         "id": "asset_prompt_009_3",
         "type": "sample",
         "alt": "Sci-Fi Mech Warrior sample 3",
-        "url": "/demo-covers/prompt_009.svg"
+        "url": "/demo-covers/prompt_009.jpg"
       }
     ],
     "promptTags": [],
@@ -431,19 +431,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_010_1",
         "type": "sample",
         "alt": "E-commerce Fashion Model sample 1",
-        "url": "/demo-covers/prompt_010.svg"
+        "url": "/demo-covers/prompt_010.jpg"
       },
       {
         "id": "asset_prompt_010_2",
         "type": "sample",
         "alt": "E-commerce Fashion Model sample 2",
-        "url": "/demo-covers/prompt_010.svg"
+        "url": "/demo-covers/prompt_010.jpg"
       },
       {
         "id": "asset_prompt_010_3",
         "type": "sample",
         "alt": "E-commerce Fashion Model sample 3",
-        "url": "/demo-covers/prompt_010.svg"
+        "url": "/demo-covers/prompt_010.jpg"
       }
     ],
     "promptTags": [],
@@ -474,19 +474,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_011_1",
         "type": "sample",
         "alt": "Dark Fantasy Demon Lord sample 1",
-        "url": "/demo-covers/prompt_011.svg"
+        "url": "/demo-covers/prompt_011.jpg"
       },
       {
         "id": "asset_prompt_011_2",
         "type": "sample",
         "alt": "Dark Fantasy Demon Lord sample 2",
-        "url": "/demo-covers/prompt_011.svg"
+        "url": "/demo-covers/prompt_011.jpg"
       },
       {
         "id": "asset_prompt_011_3",
         "type": "sample",
         "alt": "Dark Fantasy Demon Lord sample 3",
-        "url": "/demo-covers/prompt_011.svg"
+        "url": "/demo-covers/prompt_011.jpg"
       }
     ],
     "promptTags": [],
@@ -517,19 +517,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_012_1",
         "type": "sample",
         "alt": "Watercolor Landscape Scenery sample 1",
-        "url": "/demo-covers/prompt_012.svg"
+        "url": "/demo-covers/prompt_012.jpg"
       },
       {
         "id": "asset_prompt_012_2",
         "type": "sample",
         "alt": "Watercolor Landscape Scenery sample 2",
-        "url": "/demo-covers/prompt_012.svg"
+        "url": "/demo-covers/prompt_012.jpg"
       },
       {
         "id": "asset_prompt_012_3",
         "type": "sample",
         "alt": "Watercolor Landscape Scenery sample 3",
-        "url": "/demo-covers/prompt_012.svg"
+        "url": "/demo-covers/prompt_012.jpg"
       }
     ],
     "promptTags": [],
@@ -560,19 +560,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_013_1",
         "type": "sample",
         "alt": "Social Media Icon Pack sample 1",
-        "url": "/demo-covers/prompt_013.svg"
+        "url": "/demo-covers/prompt_013.jpg"
       },
       {
         "id": "asset_prompt_013_2",
         "type": "sample",
         "alt": "Social Media Icon Pack sample 2",
-        "url": "/demo-covers/prompt_013.svg"
+        "url": "/demo-covers/prompt_013.jpg"
       },
       {
         "id": "asset_prompt_013_3",
         "type": "sample",
         "alt": "Social Media Icon Pack sample 3",
-        "url": "/demo-covers/prompt_013.svg"
+        "url": "/demo-covers/prompt_013.jpg"
       }
     ],
     "promptTags": [],
@@ -603,19 +603,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_014_1",
         "type": "sample",
         "alt": "Portrait Oil Painting Style sample 1",
-        "url": "/demo-covers/prompt_014.svg"
+        "url": "/demo-covers/prompt_014.jpg"
       },
       {
         "id": "asset_prompt_014_2",
         "type": "sample",
         "alt": "Portrait Oil Painting Style sample 2",
-        "url": "/demo-covers/prompt_014.svg"
+        "url": "/demo-covers/prompt_014.jpg"
       },
       {
         "id": "asset_prompt_014_3",
         "type": "sample",
         "alt": "Portrait Oil Painting Style sample 3",
-        "url": "/demo-covers/prompt_014.svg"
+        "url": "/demo-covers/prompt_014.jpg"
       }
     ],
     "promptTags": [],
@@ -646,19 +646,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_015_1",
         "type": "sample",
         "alt": "Isometric Game Asset City sample 1",
-        "url": "/demo-covers/prompt_015.svg"
+        "url": "/demo-covers/prompt_015.jpg"
       },
       {
         "id": "asset_prompt_015_2",
         "type": "sample",
         "alt": "Isometric Game Asset City sample 2",
-        "url": "/demo-covers/prompt_015.svg"
+        "url": "/demo-covers/prompt_015.jpg"
       },
       {
         "id": "asset_prompt_015_3",
         "type": "sample",
         "alt": "Isometric Game Asset City sample 3",
-        "url": "/demo-covers/prompt_015.svg"
+        "url": "/demo-covers/prompt_015.jpg"
       }
     ],
     "promptTags": [],
@@ -689,19 +689,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_016_1",
         "type": "sample",
         "alt": "Nature Wildlife Photography sample 1",
-        "url": "/demo-covers/prompt_016.svg"
+        "url": "/demo-covers/prompt_016.jpg"
       },
       {
         "id": "asset_prompt_016_2",
         "type": "sample",
         "alt": "Nature Wildlife Photography sample 2",
-        "url": "/demo-covers/prompt_016.svg"
+        "url": "/demo-covers/prompt_016.jpg"
       },
       {
         "id": "asset_prompt_016_3",
         "type": "sample",
         "alt": "Nature Wildlife Photography sample 3",
-        "url": "/demo-covers/prompt_016.svg"
+        "url": "/demo-covers/prompt_016.jpg"
       }
     ],
     "promptTags": [],
@@ -732,19 +732,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_017_1",
         "type": "sample",
         "alt": "Futuristic UI Dashboard sample 1",
-        "url": "/demo-covers/prompt_017.svg"
+        "url": "/demo-covers/prompt_017.jpg"
       },
       {
         "id": "asset_prompt_017_2",
         "type": "sample",
         "alt": "Futuristic UI Dashboard sample 2",
-        "url": "/demo-covers/prompt_017.svg"
+        "url": "/demo-covers/prompt_017.jpg"
       },
       {
         "id": "asset_prompt_017_3",
         "type": "sample",
         "alt": "Futuristic UI Dashboard sample 3",
-        "url": "/demo-covers/prompt_017.svg"
+        "url": "/demo-covers/prompt_017.jpg"
       }
     ],
     "promptTags": [],
@@ -775,19 +775,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_018_1",
         "type": "sample",
         "alt": "Steampunk Inventor Character sample 1",
-        "url": "/demo-covers/prompt_018.svg"
+        "url": "/demo-covers/prompt_018.jpg"
       },
       {
         "id": "asset_prompt_018_2",
         "type": "sample",
         "alt": "Steampunk Inventor Character sample 2",
-        "url": "/demo-covers/prompt_018.svg"
+        "url": "/demo-covers/prompt_018.jpg"
       },
       {
         "id": "asset_prompt_018_3",
         "type": "sample",
         "alt": "Steampunk Inventor Character sample 3",
-        "url": "/demo-covers/prompt_018.svg"
+        "url": "/demo-covers/prompt_018.jpg"
       }
     ],
     "promptTags": [],
@@ -818,19 +818,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_019_1",
         "type": "sample",
         "alt": "Abstract Fluid Art Background sample 1",
-        "url": "/demo-covers/prompt_019.svg"
+        "url": "/demo-covers/prompt_019.jpg"
       },
       {
         "id": "asset_prompt_019_2",
         "type": "sample",
         "alt": "Abstract Fluid Art Background sample 2",
-        "url": "/demo-covers/prompt_019.svg"
+        "url": "/demo-covers/prompt_019.jpg"
       },
       {
         "id": "asset_prompt_019_3",
         "type": "sample",
         "alt": "Abstract Fluid Art Background sample 3",
-        "url": "/demo-covers/prompt_019.svg"
+        "url": "/demo-covers/prompt_019.jpg"
       }
     ],
     "promptTags": [],
@@ -861,19 +861,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_020_1",
         "type": "sample",
         "alt": "Horror Game Environment Dark Corridor sample 1",
-        "url": "/demo-covers/prompt_020.svg"
+        "url": "/demo-covers/prompt_020.jpg"
       },
       {
         "id": "asset_prompt_020_2",
         "type": "sample",
         "alt": "Horror Game Environment Dark Corridor sample 2",
-        "url": "/demo-covers/prompt_020.svg"
+        "url": "/demo-covers/prompt_020.jpg"
       },
       {
         "id": "asset_prompt_020_3",
         "type": "sample",
         "alt": "Horror Game Environment Dark Corridor sample 3",
-        "url": "/demo-covers/prompt_020.svg"
+        "url": "/demo-covers/prompt_020.jpg"
       }
     ],
     "promptTags": [],
@@ -904,19 +904,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_021_1",
         "type": "sample",
         "alt": "Children Book Illustration Forest sample 1",
-        "url": "/demo-covers/prompt_021.svg"
+        "url": "/demo-covers/prompt_021.jpg"
       },
       {
         "id": "asset_prompt_021_2",
         "type": "sample",
         "alt": "Children Book Illustration Forest sample 2",
-        "url": "/demo-covers/prompt_021.svg"
+        "url": "/demo-covers/prompt_021.jpg"
       },
       {
         "id": "asset_prompt_021_3",
         "type": "sample",
         "alt": "Children Book Illustration Forest sample 3",
-        "url": "/demo-covers/prompt_021.svg"
+        "url": "/demo-covers/prompt_021.jpg"
       }
     ],
     "promptTags": [],
@@ -947,19 +947,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_022_1",
         "type": "sample",
         "alt": "Car Commercial Photography sample 1",
-        "url": "/demo-covers/prompt_022.svg"
+        "url": "/demo-covers/prompt_022.jpg"
       },
       {
         "id": "asset_prompt_022_2",
         "type": "sample",
         "alt": "Car Commercial Photography sample 2",
-        "url": "/demo-covers/prompt_022.svg"
+        "url": "/demo-covers/prompt_022.jpg"
       },
       {
         "id": "asset_prompt_022_3",
         "type": "sample",
         "alt": "Car Commercial Photography sample 3",
-        "url": "/demo-covers/prompt_022.svg"
+        "url": "/demo-covers/prompt_022.jpg"
       }
     ],
     "promptTags": [],
@@ -990,19 +990,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_023_1",
         "type": "sample",
         "alt": "Pixel Art Retro Game Scene sample 1",
-        "url": "/demo-covers/prompt_023.svg"
+        "url": "/demo-covers/prompt_023.jpg"
       },
       {
         "id": "asset_prompt_023_2",
         "type": "sample",
         "alt": "Pixel Art Retro Game Scene sample 2",
-        "url": "/demo-covers/prompt_023.svg"
+        "url": "/demo-covers/prompt_023.jpg"
       },
       {
         "id": "asset_prompt_023_3",
         "type": "sample",
         "alt": "Pixel Art Retro Game Scene sample 3",
-        "url": "/demo-covers/prompt_023.svg"
+        "url": "/demo-covers/prompt_023.jpg"
       }
     ],
     "promptTags": [],
@@ -1033,19 +1033,19 @@ export const previewPrompts: PreviewPrompt[] = [
         "id": "asset_prompt_024_1",
         "type": "sample",
         "alt": "Cosmic Space Nebula sample 1",
-        "url": "/demo-covers/prompt_024.svg"
+        "url": "/demo-covers/prompt_024.jpg"
       },
       {
         "id": "asset_prompt_024_2",
         "type": "sample",
         "alt": "Cosmic Space Nebula sample 2",
-        "url": "/demo-covers/prompt_024.svg"
+        "url": "/demo-covers/prompt_024.jpg"
       },
       {
         "id": "asset_prompt_024_3",
         "type": "sample",
         "alt": "Cosmic Space Nebula sample 3",
-        "url": "/demo-covers/prompt_024.svg"
+        "url": "/demo-covers/prompt_024.jpg"
       }
     ],
     "promptTags": [],

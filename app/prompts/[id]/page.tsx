@@ -6,7 +6,7 @@ import { notFound } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 
 function demoCoverPath(prompt: { id: string }, variant = 0) {
-  return variant === 0 ? `/demo-covers/${prompt.id}.svg` : `/demo-covers/${prompt.id}.svg`;
+  return variant === 0 ? `/demo-covers/${prompt.id}.jpg` : `/demo-covers/${prompt.id}.jpg`;
 }
 
 
