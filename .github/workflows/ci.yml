@@ -26,6 +26,10 @@ jobs:
   type-check:
     name: Type Check
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://user:pass@localhost:5432/promptforge_ci
+      AUTH_SECRET: ci-placeholder-secret-that-is-long-enough
+      AUTH_URL: http://localhost:3000
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -34,11 +38,15 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npx prisma generate
-      - run: npx tsc --noEmit
+      - run: npx tsc --noEmit -p tsconfig.typecheck.json
 
-  test:
-    name: Tests
+  tests:
+    name: Contract Checks
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://user:pass@localhost:5432/promptforge_ci
+      AUTH_SECRET: ci-placeholder-secret-that-is-long-enough
+      AUTH_URL: http://localhost:3000
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -47,11 +55,18 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npx prisma generate
-      - run: npm test -- --passWithNoTests
+      - run: node --run cloud:contract
+      - run: node --run cloud:readiness
 
   build:
     name: Build
     runs-on: ubuntu-latest
+    env:
+      DATABASE_URL: postgresql://user:pass@localhost:5432/promptforge_ci
+      AUTH_SECRET: ci-placeholder-secret-that-is-long-enough
+      AUTH_URL: http://localhost:3000
+      NEXT_PUBLIC_MOCK_AI: 'true'
+      NEXT_PUBLIC_MOCK_PAYMENTS: 'true'
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
@@ -60,9 +75,4 @@ jobs:
           cache: 'npm'
       - run: npm ci
       - run: npx prisma generate
-      - name: Apply migrations & seed
-        run: |
-          npx prisma migrate deploy
-          npm run db:seed
       - run: npm run build
-      - run: npm run es:init

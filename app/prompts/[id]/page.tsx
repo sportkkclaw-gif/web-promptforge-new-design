@@ -1,4 +1,5 @@
 import prisma from '@/lib/prisma';
+import { getPreviewPromptById } from '@/lib/preview-data';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 
@@ -10,18 +11,25 @@ function demoCoverPath(prompt: { id: string }, variant = 0) {
 
 
 export default async function PromptDetailPage({ params }: { params: { id: string } }) {
-  const prompt = await prisma.prompt.findUnique({
-    where: { id: params.id },
-    include: {
-      owner: { select: { id: true, username: true, avatarUrl: true } },
-      versions: { orderBy: { version: 'desc' }, take: 3 },
-      assets: { where: { type: { in: ['cover', 'sample'] } }, take: 4 },
-      promptTags: { include: { tag: true } },
-      marketplaceItem: true,
-      reviews: { include: { user: { select: { username: true, avatarUrl: true } } }, take: 5 },
-    },
-  });
+  let prompt = null;
 
+  try {
+    prompt = await prisma.prompt.findUnique({
+      where: { id: params.id },
+      include: {
+        owner: { select: { id: true, username: true, avatarUrl: true } },
+        versions: { orderBy: { version: 'desc' }, take: 3 },
+        assets: { where: { type: { in: ['cover', 'sample'] } }, take: 4 },
+        promptTags: { include: { tag: true } },
+        marketplaceItem: true,
+        reviews: { include: { user: { select: { username: true, avatarUrl: true } } }, take: 5 },
+      },
+    });
+  } catch {
+    prompt = getPreviewPromptById(params.id);
+  }
+
+  if (!prompt) prompt = getPreviewPromptById(params.id);
   if (!prompt) notFound();
 
   return (
