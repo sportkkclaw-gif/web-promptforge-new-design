@@ -32,14 +32,14 @@ export default function UserProfilePage({ params }: Props) {
   };
 
   return (
-    <div className="min-h-screen">
-      <nav className="border-b px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl text-primary">PromptForge Studio</Link>
+    <div className="pf-lux-page">
+      <nav className="pf-lux-nav px-6 py-4 flex items-center justify-between">
+        <Link href="/" className="pf-lux-brand font-bold text-xl">PromptForge Studio</Link>
         <div className="flex gap-4">
-          <Link href="/browse" className="text-sm hover:text-primary">Explore</Link>
-          <Link href="/marketplace" className="text-sm hover:text-primary">Marketplace</Link>
-          <Link href="/dashboard" className="text-sm hover:text-primary">Dashboard</Link>
-          <Link href="/create" className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm">Create</Link>
+          <Link href="/browse" className="pf-lux-link text-sm">Explore</Link>
+          <Link href="/marketplace" className="pf-lux-link text-sm">Marketplace</Link>
+          <Link href="/dashboard" className="pf-lux-link text-sm">Dashboard</Link>
+          <Link href="/create" className="pf-lux-cta px-4 py-2 rounded-full text-sm">Create</Link>
         </div>
       </nav>
 
@@ -124,7 +124,7 @@ export default function UserProfilePage({ params }: Props) {
             <Link
               key={prompt.id}
               href={`/prompts/${prompt.id}`}
-              className="group border rounded-xl overflow-hidden hover:shadow-lg transition-shadow"
+              className="pf-lux-card group overflow-hidden rounded-xl transition-shadow"
             >
               <div className="bg-muted h-40 flex items-center justify-center text-muted-foreground">
                 <span className="text-4xl opacity-30">🖼️</span>

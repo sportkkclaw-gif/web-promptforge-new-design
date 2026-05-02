@@ -5,21 +5,26 @@ node_modules/
 .next/
 dist/
 build/
+*.tsbuildinfo
 
 # Environment files
 .env
-.env.local
-.env.example
-.env.production
+.env.*
+!.env.example
+!.env.local.example
+!.env.production.example
+!.env.production.required
 
 # Database
 *.db
 *.sqlite
 *.sqlite3
 
-# Vercel
+# Vercel / Supabase local state
 .vercel/
+supabase/.temp/
 
 # Misc
 .DS_Store
 *.log
+.vercel

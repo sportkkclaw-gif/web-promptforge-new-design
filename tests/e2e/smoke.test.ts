@@ -20,7 +20,11 @@ describe('E2E Smoke Tests', () => {
     
     // Check marketplace pages exist
     expect(fs.existsSync(path.join(appDir, 'marketplace/page.tsx'))).toBe(true);
-    
+    expect(fs.existsSync(path.join(appDir, 'marketplace/[slug]/page.tsx'))).toBe(true);
+    expect(fs.existsSync(path.join(appDir, 'marketplace/featured/page.tsx'))).toBe(true);
+    expect(fs.existsSync(path.join(appDir, 'marketplace/trending/page.tsx'))).toBe(true);
+    expect(fs.existsSync(path.join(appDir, 'creators/[username]/page.tsx'))).toBe(true);
+
     // Check new required pages exist
     expect(fs.existsSync(path.join(appDir, 'editor/[id]/page.tsx'))).toBe(true);
     expect(fs.existsSync(path.join(appDir, 'user/[username]/page.tsx'))).toBe(true);

@@ -6,7 +6,7 @@ generator client {
 }
 
 datasource db {
-  provider = "sqlite"
+  provider = "postgresql"
   url      = env("DATABASE_URL")
 }
 
@@ -15,52 +15,65 @@ datasource db {
 // ============================================================
 
 model User {
-  id        String   @id @default(cuid())
-  email     String   @unique
-  username  String   @unique
-  role      String   @default("member") // visitor|member|creator|team_admin|admin
-  avatarUrl String?
-  credits   Int      @default(100)
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+  id                     String    @id @default(cuid())
+  email                  String    @unique
+  username               String    @unique
+  emailVerified          DateTime?
+  passwordHash           String?
+  role                   String    @default("member") // visitor|member|creator|team_admin|admin
+  avatarUrl              String?
+  credits                Int       @default(100)
+  resetToken             String?
+  resetTokenExpiry       DateTime?
+  emailVerifyToken       String?
+  emailVerifyTokenExpiry DateTime?
+  createdAt              DateTime  @default(now())
+  updatedAt              DateTime  @updatedAt
 
-  ownedWorkspaces   Workspace[]      @relation("WorkspaceOwner")
-  memberships       WorkspaceMember[]
-  prompts           Prompt[]
-  generationRuns    GenerationRun[]
-  collections       Collection[]
-  marketplaceItems  MarketplaceItem[]
-  buyerOrders       Order[]          @relation("BuyerOrders")
-  sellerOrders      Order[]          @relation("SellerOrders")
-  reviews           Review[]
-  moderationEvents  ModerationEvent[]
-  creditsLedgers    CreditsLedger[]
+  ownedWorkspaces  Workspace[]       @relation("WorkspaceOwner")
+  memberships      WorkspaceMember[]
+  prompts          Prompt[]
+  generationRuns   GenerationRun[]
+  collections      Collection[]
+  marketplaceItems MarketplaceItem[]
+  buyerOrders      Order[]           @relation("BuyerOrders")
+  sellerOrders     Order[]           @relation("SellerOrders")
+  reviews          Review[]
+  moderationEvents ModerationEvent[]
+  creditsLedgers   CreditsLedger[]
+  apiKeys          ApiKey[]
+  teamInvitesSent  TeamInvite[]      @relation("TeamInviteSender")
 }
 
 model Workspace {
   id        String   @id @default(cuid())
   name      String
+  slug      String   @unique
   ownerId   String
   planId    String
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  owner         User              @relation("WorkspaceOwner", fields: [ownerId], references: [id])
-  plan          Plan              @relation(fields: [planId], references: [id])
-  members       WorkspaceMember[]
-  prompts       Prompt[]
-  collections   Collection[]
-  subscriptions Subscription[]
+  owner          User              @relation("WorkspaceOwner", fields: [ownerId], references: [id])
+  plan           Plan              @relation(fields: [planId], references: [id])
+  members        WorkspaceMember[]
+  prompts        Prompt[]
+  collections    Collection[]
+  subscriptions  Subscription[]
   creditsLedgers CreditsLedger[]
+  teamInvites    TeamInvite[]
+
+  @@index([slug])
 }
 
 model WorkspaceMember {
-  id          String   @id @default(cuid())
-  workspaceId String
-  userId      String
-  role        String   @default("member") // owner|admin|member|viewer
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id               String   @id @default(cuid())
+  workspaceId      String
+  userId           String
+  role             String   @default("member") // owner|admin|member|viewer
+  allocatedCredits Int      @default(0) // per-member credit allocation from team pool
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   user      User      @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -77,36 +90,44 @@ model Plan {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  workspaces     Workspace[]
-  subscriptions  Subscription[]
+  workspaces    Workspace[]
+  subscriptions Subscription[]
 }
 
 model Subscription {
-  id                 String   @id @default(cuid())
-  workspaceId        String
-  planId             String
-  status             String   @default("active") // active|trialing|past_due|canceled
-  currentPeriodEnd   DateTime
-  createdAt          DateTime @default(now())
-  updatedAt          DateTime @updatedAt
+  id               String   @id @default(cuid())
+  workspaceId      String
+  planId           String
+  status           String   @default("active") // active|trialing|past_due|canceled
+  currentPeriodEnd DateTime
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
 
   workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
   plan      Plan      @relation(fields: [planId], references: [id])
 }
 
 model CreditsLedger {
-  id         String   @id @default(cuid())
-  userId     String
-  workspaceId String?
-  delta      Int
-  reason     String
-  refType    String?
-  refId      String?
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  id           String   @id @default(cuid())
+  userId       String
+  workspaceId  String?
+  delta        Int
+  reason       String
+  refType      String?
+  refId        String?
+  balanceAfter Int // Running balance snapshot after this tx; enables independent verification
+  createdAt    DateTime @default(now())
 
-  user     User      @relation(fields: [userId], references: [id])
+  // NOTE: updatedAt deliberately omitted — ledger entries are IMMUTABLE.
+  // No update/delete operations are permitted on this table. Any attempt should
+  // be blocked at the application layer (see lib/ledger.ts guard).
+
+  user      User       @relation(fields: [userId], references: [id])
   workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
+
+  @@index([userId, createdAt])
+  @@index([userId, delta])
+  @@index([refType, refId])
 }
 
 // ============================================================
@@ -114,26 +135,26 @@ model CreditsLedger {
 // ============================================================
 
 model Prompt {
-  id            String   @id @default(cuid())
-  ownerId       String
-  workspaceId   String?
-  title         String
-  slug          String   @unique
-  summary       String
-  content       String
+  id             String   @id @default(cuid())
+  ownerId        String
+  workspaceId    String?
+  title          String
+  slug           String   @unique
+  summary        String
+  content        String
   negativePrompt String?
-  engine        String   @default("stable-diffusion")
-  model         String   @default("sd-xl")
-  parameters    String   @default("{}") // JSON stored as text for SQLite
-  status        String   @default("draft") // draft|private|published|marketplace|archived
-  priceCredits  Int      @default(0)
-  viewCount     Int      @default(0)
-  saveCount     Int      @default(0)
-  createdAt     DateTime @default(now())
-  updatedAt     DateTime @updatedAt
+  engine         String   @default("stable-diffusion")
+  model          String   @default("sd-xl")
+  parameters     String   @default("{}") // JSON stored as text for SQLite
+  status         String   @default("draft") // draft|private|published|marketplace|archived
+  priceCredits   Int      @default(0)
+  viewCount      Int      @default(0)
+  saveCount      Int      @default(0)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
 
-  owner           User            @relation(fields: [ownerId], references: [id])
-  workspace       Workspace?      @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
+  owner           User             @relation(fields: [ownerId], references: [id])
+  workspace       Workspace?       @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
   versions        PromptVersion[]
   assets          PromptAsset[]
   promptTags      PromptTag[]
@@ -162,7 +183,7 @@ model PromptVersion {
 model PromptAsset {
   id        String   @id @default(cuid())
   promptId  String
-  type      String   // cover|sample|attachment
+  type      String // cover|sample|attachment
   url       String
   alt       String   @default("")
   createdAt DateTime @default(now())
@@ -206,12 +227,13 @@ model GenerationRun {
   parameters String   @default("{}") // JSON
   status     String   @default("queued") // queued|running|succeeded|failed|mocked
   error      String?
+  response   String? // Full generated result (JSON) stored on COMPLETED
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
 
-  prompt   Prompt              @relation(fields: [promptId], references: [id])
-  user     User                @relation(fields: [userId], references: [id])
-  outputs  GenerationOutput[]
+  prompt  Prompt             @relation(fields: [promptId], references: [id])
+  user    User               @relation(fields: [userId], references: [id])
+  outputs GenerationOutput[]
 }
 
 model GenerationOutput {
@@ -241,7 +263,7 @@ model Category {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
-  parent   Category? @relation("CategoryParent", fields: [parentId], references: [id])
+  parent   Category?  @relation("CategoryParent", fields: [parentId], references: [id])
   children Category[] @relation("CategoryParent")
 }
 
@@ -250,17 +272,17 @@ model Category {
 // ============================================================
 
 model Collection {
-  id         String   @id @default(cuid())
-  ownerId    String
+  id          String   @id @default(cuid())
+  ownerId     String
   workspaceId String?
-  name       String
-  visibility String   @default("private") // private|workspace|public
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  name        String
+  visibility  String   @default("private") // private|workspace|public
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
-  owner    User       @relation(fields: [ownerId], references: [id])
-  workspace Workspace? @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
-  items    CollectionItem[]
+  owner     User             @relation(fields: [ownerId], references: [id])
+  workspace Workspace?       @relation(fields: [workspaceId], references: [id], onDelete: SetNull)
+  items     CollectionItem[]
 }
 
 model CollectionItem {
@@ -292,8 +314,8 @@ model MarketplaceItem {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  prompt Prompt @relation(fields: [promptId], references: [id], onDelete: Cascade)
-  seller User   @relation(fields: [sellerId], references: [id])
+  prompt Prompt  @relation(fields: [promptId], references: [id], onDelete: Cascade)
+  seller User    @relation(fields: [sellerId], references: [id])
   orders Order[]
 }
 
@@ -307,9 +329,33 @@ model Order {
   createdAt         DateTime @default(now())
   updatedAt         DateTime @updatedAt
 
-  buyer    User           @relation("BuyerOrders", fields: [buyerId], references: [id])
-  seller   User           @relation("SellerOrders", fields: [sellerId], references: [id])
-  item     MarketplaceItem @relation(fields: [marketplaceItemId], references: [id])
+  buyer  User            @relation("BuyerOrders", fields: [buyerId], references: [id])
+  seller User            @relation("SellerOrders", fields: [sellerId], references: [id])
+  item   MarketplaceItem @relation(fields: [marketplaceItemId], references: [id])
+  items  OrderItem[]
+
+  @@index([buyerId])
+  @@index([sellerId])
+  @@index([marketplaceItemId])
+}
+
+// ============================================================
+// Order Item
+// ============================================================
+
+model OrderItem {
+  id         String   @id @default(cuid())
+  orderId    String
+  templateId String
+  itemType   String // TEMPLATE_PURCHASE | CREDIT_PACKAGE | SUBSCRIPTION_RENEWAL
+  credits    Int
+  quantity   Int      @default(1)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  order Order @relation(fields: [orderId], references: [id], onDelete: Cascade)
+
+  @@index([orderId])
 }
 
 // ============================================================
@@ -340,4 +386,295 @@ model ModerationEvent {
   updatedAt   DateTime @updatedAt
 
   moderator User? @relation(fields: [moderatorId], references: [id])
+}
+
+// ============================================================
+// API Key Model
+// ============================================================
+
+model ApiKey {
+  id         String    @id @default(cuid())
+  userId     String
+  name       String
+  keyPrefix  String // e.g. "pfk_live_" — first 8 chars of the hash for display
+  keyHash    String // SHA-256 of the full raw key — never stored raw
+  lastUsedAt DateTime?
+  expiresAt  DateTime?
+  createdAt  DateTime  @default(now())
+  updatedAt  DateTime  @updatedAt
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+// ============================================================
+// Team Invite Model
+// ============================================================
+
+model TeamInvite {
+  id          String    @id @default(cuid())
+  workspaceId String
+  email       String
+  token       String    @unique
+  teamRole    String    @default("member")
+  invitedById String
+  expiresAt   DateTime
+  acceptedAt  DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  workspace Workspace @relation(fields: [workspaceId], references: [id], onDelete: Cascade)
+  invitedBy User      @relation("TeamInviteSender", fields: [invitedById], references: [id])
+
+  @@index([workspaceId, email])
+  @@index([token])
+}
+
+// ============================================================
+// Audit Log Model
+// ============================================================
+
+model AuditLog {
+  id        String   @id @default(cuid())
+  userId    String?
+  action    String // e.g. REGISTER_SUCCESS, LOGIN_FAILURE, PROFILE_UPDATE, API_KEY_CREATE
+  target    String? // e.g. user id, key id
+  metadata  String? // JSON string for extra context
+  ipAddress String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
+  @@index([action, createdAt])
+}
+
+// ============================================================
+// Alias / Gap Models — checklist naming parity
+// These are pure additive stubs that mirror naming conventions
+// from the broader PromptForge ecosystem without changing any
+// existing application behaviour or relations.
+// ============================================================
+
+// Account — mirrors user identity for auth-adapter parity
+model Account {
+  id                String   @id @default(cuid())
+  userId            String   @unique
+  provider          String // e.g. google, github, credentials
+  providerAccountId String
+  refreshToken      String?
+  accessToken       String?
+  expiresAt         Int?
+  tokenType         String?
+  scope             String?
+  idToken           String?
+  sessionState      String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+
+  @@unique([provider, providerAccountId])
+  @@index([userId])
+}
+
+// Session — lightweight auth session record
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([userId])
+}
+
+// Team — workspace-scoped team aggregate root (alias over Workspace behaviour)
+model Team {
+  id          String   @id @default(cuid())
+  workspaceId String   @unique
+  name        String
+  slug        String   @unique
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  @@index([workspaceId])
+  @@index([slug])
+}
+
+// TeamMember — per-member team membership (mirrors WorkspaceMember)
+model TeamMember {
+  id        String   @id @default(cuid())
+  teamId    String
+  userId    String
+  role      String   @default("member") // owner|admin|member|viewer
+  joinedAt  DateTime @default(now())
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@unique([teamId, userId])
+  @@index([userId])
+}
+
+// TeamQuota — per-team credit/usage quota tracking
+model TeamQuota {
+  id           String   @id @default(cuid())
+  teamId       String   @unique
+  totalCredits Int      @default(0)
+  usedCredits  Int      @default(0)
+  limitCredits Int      @default(0)
+  periodStart  DateTime
+  periodEnd    DateTime
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([teamId])
+}
+
+// Template — prompt template for reusable generation configs
+model Template {
+  id           String   @id @default(cuid())
+  ownerId      String
+  name         String
+  slug         String   @unique
+  description  String   @default("")
+  content      String
+  variables    String   @default("[]") // JSON array of variable names
+  engine       String   @default("stable-diffusion")
+  model        String   @default("sd-xl")
+  parameters   String   @default("{}")
+  status       String   @default("draft") // draft|active|archived
+  versionCount Int      @default(0)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  versions TemplateVersion[]
+
+  @@index([ownerId])
+  @@index([slug])
+  @@index([status])
+}
+
+// TemplateVersion — versioned snapshot of a template
+model TemplateVersion {
+  id         String   @id @default(cuid())
+  templateId String
+  version    Int
+  content    String
+  parameters String   @default("{}")
+  changelog  String   @default("")
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  template Template @relation(fields: [templateId], references: [id], onDelete: Cascade)
+
+  @@unique([templateId, version])
+  @@index([templateId])
+}
+
+// Taxonomy — hierarchical category/tag taxonomy for content organisation
+model Taxonomy {
+  id        String   @id @default(cuid())
+  name      String
+  slug      String   @unique
+  type      String   @default("category") // category|tag|genre|style
+  parentId  String?
+  sort      Int      @default(0)
+  metadata  String? // JSON string for extra attributes
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  parent   Taxonomy?  @relation("TaxonomyParent", fields: [parentId], references: [id])
+  children Taxonomy[] @relation("TaxonomyParent")
+
+  @@index([slug])
+  @@index([type])
+  @@index([parentId])
+}
+
+// CreditTransaction — explicit transaction log for credit changes (alias over CreditsLedger)
+model CreditTransaction {
+  id           String   @id @default(cuid())
+  userId       String
+  workspaceId  String?
+  delta        Int
+  reason       String
+  refType      String?
+  refId        String?
+  balanceAfter Int
+  metadata     String? // JSON string for extra context
+  createdAt    DateTime @default(now())
+
+  @@index([userId, createdAt])
+  @@index([refType, refId])
+  @@index([workspaceId])
+}
+
+// QuotaPlan — plan limits and quota configuration (alias over Plan)
+model QuotaPlan {
+  id           String   @id @default(cuid())
+  code         String   @unique // FREE|PRO|TEAM|ENTERPRISE
+  name         String
+  monthlyPrice Float    @default(0)
+  creditQuota  Int      @default(50)
+  maxSeats     Int      @default(1)
+  features     String   @default("[]") // JSON array of feature flags
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  @@index([code])
+}
+
+// CreditPackage — purchasable credit bundles
+// Mirrors the CREDIT_PACKAGES map in app/api/credits/purchase/route.ts
+// but persisted in DB for admin management and analytics.
+model CreditPackage {
+  id         String   @id @default(cuid())
+  code       String   @unique // credits_100|credits_500|credits_1000|credits_5000
+  label      String
+  credits    Int
+  priceUsd   Float
+  isActive   Boolean  @default(true)
+  sortOrder  Int      @default(0)
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@index([code])
+  @@index([isActive])
+}
+
+// GenerationLog — per-generation audit/event log (alias over GenerationRun for external tooling)
+model GenerationLog {
+  id          String    @id @default(cuid())
+  runId       String    @unique
+  promptId    String
+  userId      String
+  engine      String    @default("stable-diffusion")
+  model       String    @default("sd-xl")
+  parameters  String    @default("{}")
+  status      String    @default("queued") // queued|running|succeeded|failed|mocked
+  error       String?
+  response    String?
+  creditCost  Int       @default(0)
+  createdAt   DateTime  @default(now())
+  completedAt DateTime?
+
+  @@index([userId, createdAt])
+  @@index([promptId])
+  @@index([status])
+}
+
+// Notification — user-facing notification/alert record
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  type      String // e.g. GENERATION_COMPLETE, CREDIT_LOW, TEAM_INVITE
+  title     String
+  body      String   @default("")
+  data      String? // JSON string for extra payload
+  read      Boolean  @default(false)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId, createdAt])
+  @@index([userId, read])
 }

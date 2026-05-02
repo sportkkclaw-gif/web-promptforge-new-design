@@ -17,13 +17,13 @@ export default function AdminPage() {
   ];
 
   return (
-    <div className="min-h-screen">
-      <nav className="border-b px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl text-primary">PromptForge Studio</Link>
+    <div className="pf-lux-page">
+      <nav className="pf-lux-nav px-6 py-4 flex items-center justify-between">
+        <Link href="/" className="pf-lux-brand font-bold text-xl">PromptForge Studio</Link>
         <div className="flex gap-4">
-          <Link href="/browse" className="text-sm hover:text-primary">Explore</Link>
-          <Link href="/admin" className="text-sm font-medium text-primary">Admin</Link>
-          <Link href="/admin/moderation" className="text-sm hover:text-primary">Moderation</Link>
+          <Link href="/browse" className="pf-lux-link text-sm">Explore</Link>
+          <Link href="/admin" className="text-sm font-medium text-cyan-200">Admin</Link>
+          <Link href="/admin/moderation" className="pf-lux-link text-sm">Moderation</Link>
         </div>
       </nav>
 

@@ -90,13 +90,13 @@ export default function ApiDocsPage() {
   };
 
   return (
-    <div className="min-h-screen">
-      <nav className="border-b px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl text-primary">PromptForge Studio</Link>
+    <div className="pf-lux-page">
+      <nav className="pf-lux-nav px-6 py-4 flex items-center justify-between">
+        <Link href="/" className="pf-lux-brand font-bold text-xl">PromptForge Studio</Link>
         <div className="flex gap-4">
-          <Link href="/browse" className="text-sm hover:text-primary">Explore</Link>
-          <Link href="/marketplace" className="text-sm hover:text-primary">Marketplace</Link>
-          <Link href="/help/api-docs" className="text-sm font-medium text-primary">API Docs</Link>
+          <Link href="/browse" className="pf-lux-link text-sm">Explore</Link>
+          <Link href="/marketplace" className="pf-lux-link text-sm">Marketplace</Link>
+          <Link href="/help/api-docs" className="text-sm font-medium text-cyan-200">API Docs</Link>
         </div>
       </nav>
 

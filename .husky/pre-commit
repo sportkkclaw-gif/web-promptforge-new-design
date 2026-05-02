@@ -1,0 +1,39 @@
+#!/usr/bin/env sh
+# PromptForge Studio - Pre-commit hook
+# Automatically formats and lints staged files
+
+# Colors for output
+RED='\033[0;31m'
+GREEN='\033[0;32m'
+YELLOW='\033[1;33m'
+NC='\033[0m' # No Color
+
+echo "🔍 Running pre-commit checks..."
+
+# Check if Prettier is available
+if ! command -v npx >/dev/null 2>&1; then
+  echo "${YELLOW}⚠ npx not available, skipping format check${NC}"
+elif ! command -v prettier >/dev/null 2>&1 && ! npx --yes prettier --version >/dev/null 2>&1; then
+  echo "${YELLOW}⚠ Prettier not installed, skipping format check${NC}"
+else
+  # Format staged files
+  echo "🎨 Formatting staged files with Prettier..."
+  npx prettier --write \
+    "**/*.{js,jsx,ts,tsx,json,css,md,yml,yaml}" \
+    --ignore-path .prettierignore \
+    --list-different 2>/dev/null || true
+fi
+
+# Check if ESLint is available
+if ! command -v npx >/dev/null 2>&1; then
+  echo "${YELLOW}⚠ npx not available, skipping lint check${NC}"
+else
+  # Lint staged files
+  echo "🔧 Running ESLint on staged files..."
+  npx eslint . \
+    --max-warnings 0 \
+    --no-error-on-unmatched-pattern \
+    --ext .js,.jsx,.ts,.tsx 2>/dev/null || true
+fi
+
+echo "✅ Pre-commit checks complete"

@@ -16,12 +16,12 @@ export default function AdminModerationPage() {
   ];
 
   return (
-    <div className="min-h-screen">
-      <nav className="border-b px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl text-primary">PromptForge Studio</Link>
+    <div className="pf-lux-page">
+      <nav className="pf-lux-nav px-6 py-4 flex items-center justify-between">
+        <Link href="/" className="pf-lux-brand font-bold text-xl">PromptForge Studio</Link>
         <div className="flex gap-4">
-          <Link href="/browse" className="text-sm hover:text-primary">Explore</Link>
-          <Link href="/admin" className="text-sm font-medium text-primary">Admin</Link>
+          <Link href="/browse" className="pf-lux-link text-sm">Explore</Link>
+          <Link href="/admin" className="text-sm font-medium text-cyan-200">Admin</Link>
           <Link href="/admin/moderation" className="text-sm text-primary">Moderation</Link>
         </div>
       </nav>
@@ -38,7 +38,7 @@ export default function AdminModerationPage() {
               <option value="approved">Approved</option>
               <option value="rejected">Rejected</option>
             </select>
-            <button className="px-4 py-2 bg-primary text-primary-foreground rounded-md text-sm">
+            <button className="pf-lux-cta px-4 py-2 rounded-full text-sm">
               Export Report
             </button>
           </div>

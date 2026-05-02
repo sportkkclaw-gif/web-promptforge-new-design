@@ -31,3 +31,40 @@ export async function getOrdersByUser(userId: string) {
     orderBy: { createdAt: 'desc' },
   });
 }
+
+export async function getOrderById(orderId: string, userId: string) {
+  return prisma.order.findFirst({
+    where: { id: orderId, buyerId: userId },
+    include: {
+      item: {
+        include: { prompt: { select: { id: true, title: true, slug: true } } },
+      },
+    },
+  });
+}
+
+export function buildInvoiceContract(order: {
+  id: string;
+  buyerId: string;
+  sellerId: string;
+  marketplaceItemId: string;
+  amountCredits: number;
+  status: string;
+  createdAt: Date;
+  item?: { priceCredits: number; license: string; prompt?: { title?: string } | null } | null;
+}) {
+  return {
+    invoiceId: `inv_${order.id}`,
+    orderId: order.id,
+    buyerId: order.buyerId,
+    sellerId: order.sellerId,
+    itemId: order.marketplaceItemId,
+    itemTitle: order.item?.prompt?.title ?? 'Unknown Item',
+    license: order.item?.license ?? 'personal',
+    creditsCharged: order.amountCredits,
+    currency: 'credits',
+    status: order.status,
+    paidAt: order.status === 'paid' ? order.createdAt.toISOString() : null,
+    generatedAt: new Date().toISOString(),
+  };
+}
