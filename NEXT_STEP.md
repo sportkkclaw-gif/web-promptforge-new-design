@@ -1,3 +1,10 @@
+## 2026-05-02T09:15:14+08:00 系統管理員續修復：首頁真實圖片未上線
+- 根因：首頁 hero/featured 仍有漸層展示塊，雖 Browse/Marketplace 已接真實 `/demo-covers/*.jpg`。
+- 修復：首頁 hero 主圖、四個小模組、Featured Prompts 全改接真實生成圖 `/demo-covers/prompt_001/002/003/004/011/013/017.jpg`。
+- Commit: 51faf7f；Preview: https://promptforge-studio-5sg6e58c9-sportkk101-5719s-projects.vercel.app
+- 驗證：`npm run build` PASS（86/86）；HTTP 200 for `/` `/browse` `/marketplace` `/create` and demo-cover jpg assets；首頁 browser images=8/8 ok、0 broken；Marketplace images=12/12 ok、0 broken、0 data URI。
+- Gate：showcase 圖片缺陷已修；formal QC 仍維持 returned_for_fix，待 production/preview secrets 後完整 H1-H10。
+
 ## 2026-05-02T08:29:29+08:00 Sebastian 例行重驗
 - cloud:contract PASS（10/10）
 - cloud:readiness：H9✅；其餘受10項secrets缺失阻塞
@@ -50,7 +57,7 @@
 ## 2026-05-02T08:53:56+08:00 系統管理員續修復：/create + Marketplace 圖片
 - 根因：指定 Preview 的 `/create` server redirect 產生 307/空白等待；Marketplace 後段 smoke 資料使用不存在的 `/demo-covers/<cuid>.svg`。
 - 修復：`/create` 改為 client replace + 可見 fallback link；Marketplace cover 對非 `prompt_###` 資產改映射到現有 `/demo-covers/prompt_###.jpg`。
-- 驗證：`npm run build` PASS（86/86）；新 Preview：https://promptforge-studio-67c4502td-sportkk101-5719s-projects.vercel.app
+- 驗證：`npm run build` PASS（86/86）；新 Preview：https://promptforge-studio-n4jtmg8jd-sportkk101-5719s-projects.vercel.app
 - Live probe：`/` `/create` `/generator/default-template` `/marketplace` `/browse` `/dashboard` `/prompts/prompt_001` 與 demo cover assets 全 HTTP 200；Marketplace browser：12/12 images loaded、0 broken。
 - Gate：showcase defect 已修；formal QC 仍維持 returned_for_fix，待 production/preview secrets 後跑完整 H1-H10。
 
