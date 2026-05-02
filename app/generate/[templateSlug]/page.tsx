@@ -289,7 +289,7 @@ export default function GeneratePage() {
         {key.replace(/([A-Z])/g, ' $1').replace(/^./, s => s.toUpperCase())}
       </label>
       <input
-        className="w-full border border-gray-300 rounded px-3 py-2 text-sm"
+        className="w-full rounded border border-white/10 bg-slate-950/70 px-3 py-2 text-sm text-white outline-none focus:border-cyan-200/50"
         value={value}
         onChange={e => setForm(prev => ({ ...prev, [key]: e.target.value }))}
         placeholder={key}
@@ -298,21 +298,21 @@ export default function GeneratePage() {
   ));
 
   return (
-    <div className="flex h-screen bg-gray-50">
+    <div className="flex h-screen bg-[#05030f] text-white">
       {/* History Sidebar */}
       {historyOpen && (
-        <aside className="w-72 border-r bg-white overflow-y-auto flex-shrink-0">
+        <aside className="w-72 border-r border-white/10 bg-slate-950/80 overflow-y-auto flex-shrink-0">
           <div className="p-4 border-b flex items-center justify-between">
             <h2 className="font-semibold text-sm">Generation History</h2>
             <button
               onClick={() => setHistoryOpen(false)}
-              className="text-gray-400 hover:text-gray-600 text-xs"
+              className="text-slate-500 hover:text-white text-xs"
             >
               ✕
             </button>
           </div>
           {history.length === 0 ? (
-            <p className="text-sm text-gray-400 p-4">No generations yet</p>
+            <p className="text-sm text-slate-500 p-4">No generations yet</p>
           ) : (
             <ul className="divide-y">
               {history.map(item => (
@@ -329,12 +329,12 @@ export default function GeneratePage() {
                         status: item.status,
                       });
                     }}
-                    className="w-full text-left p-3 hover:bg-gray-50 text-sm"
+                    className="w-full text-left p-3 hover:bg-white/10 text-sm"
                   >
                     <p className="font-medium truncate">
                       {item.prompt?.title || item.promptId?.slice(0, 8)}
                     </p>
-                    <p className="text-xs text-gray-400">
+                    <p className="text-xs text-slate-500">
                       {new Date(item.createdAt).toLocaleString()} ·{' '}
                       <span className={
                         item.status === 'succeeded' ? 'text-green-600' :
@@ -363,14 +363,14 @@ export default function GeneratePage() {
               {!historyOpen && (
                 <button
                   onClick={() => setHistoryOpen(true)}
-                  className="text-sm text-blue-600 mt-1"
+                  className="text-sm text-cyan-200 mt-1"
                 >
                   Show History
                 </button>
               )}
             </div>
             {result?.isMock && (
-              <span className="px-2 py-1 bg-yellow-100 text-yellow-800 text-xs rounded">
+              <span className="px-2 py-1 bg-yellow-300/15 text-yellow-100 text-xs rounded border border-yellow-300/20">
                 DEMO MODE
               </span>
             )}
@@ -378,20 +378,20 @@ export default function GeneratePage() {
 
           {/* Template error */}
           {templateError && (
-            <div className="bg-red-50 border border-red-200 rounded p-4 text-red-700 text-sm">
+            <div className="bg-red-500/10 border border-red-300/20 rounded p-4 text-red-100 text-sm">
               {templateError}
             </div>
           )}
 
           {/* Overage / Upgrade Prompt */}
           {overage && (
-            <div className="bg-amber-50 border border-amber-200 rounded p-4 space-y-2">
+            <div className="bg-amber-300/10 border border-amber-300/20 rounded p-4 space-y-2">
               <div className="flex items-center gap-2">
                 <span className="text-lg">⚠️</span>
-                <h3 className="font-semibold text-amber-800">Quota Exceeded</h3>
+                <h3 className="font-semibold text-amber-100">Quota Exceeded</h3>
               </div>
-              <p className="text-sm text-amber-700">{overage.message}</p>
-              <div className="text-xs text-amber-600 space-y-1">
+              <p className="text-sm text-amber-200">{overage.message}</p>
+              <div className="text-xs text-amber-300 space-y-1">
                 <p>Current credits: {overage.currentCredits}</p>
                 <p>Required: {overage.requiredCredits}</p>
                 {overage.periodRemaining !== undefined && (
@@ -407,7 +407,7 @@ export default function GeneratePage() {
                 </a>
                 <a
                   href="/settings/billing"
-                  className="px-4 py-2 border border-amber-600 text-amber-700 text-sm rounded hover:bg-amber-50"
+                  className="px-4 py-2 border border-amber-300/30 text-amber-100 text-sm rounded hover:bg-amber-300/10"
                 >
                   Buy Credits
                 </a>
@@ -417,8 +417,8 @@ export default function GeneratePage() {
 
           {/* Variable Form */}
           {template && (
-            <section className="bg-white rounded-lg border p-4 space-y-4">
-              <h2 className="font-semibold text-sm text-gray-700">Template Variables</h2>
+            <section className="pf-lux-panel rounded-lg p-4 space-y-4">
+              <h2 className="font-semibold text-sm text-slate-200">Template Variables</h2>
               <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
                 {fieldInputs}
               </div>
@@ -430,7 +430,7 @@ export default function GeneratePage() {
             <button
               onClick={startGeneration}
               disabled={loading || !template}
-              className="px-6 py-2.5 bg-black text-white rounded-lg font-medium disabled:opacity-50"
+              className="pf-lux-cta px-6 py-2.5 rounded-lg font-medium disabled:opacity-50"
             >
               {loading ? 'Generating...' : 'Generate'}
             </button>
@@ -438,7 +438,7 @@ export default function GeneratePage() {
               <button
                 onClick={handleRegenerate}
                 disabled={loading}
-                className="px-4 py-2.5 border border-gray-300 rounded-lg disabled:opacity-50"
+                className="px-4 py-2.5 border border-white/10 rounded-lg disabled:opacity-50 hover:bg-white/10"
               >
                 Regenerate
               </button>
@@ -446,7 +446,7 @@ export default function GeneratePage() {
             {result && (
               <button
                 onClick={handleCopy}
-                className="px-4 py-2.5 border border-gray-300 rounded-lg"
+                className="px-4 py-2.5 border border-white/10 rounded-lg hover:bg-white/10"
               >
                 Copy
               </button>
@@ -455,7 +455,7 @@ export default function GeneratePage() {
 
           {/* Error */}
           {error && (
-            <div className="bg-red-50 border border-red-200 rounded p-3 text-red-700 text-sm">
+            <div className="bg-red-500/10 border border-red-300/20 rounded p-3 text-red-100 text-sm">
               {error}
             </div>
           )}
@@ -469,16 +469,16 @@ export default function GeneratePage() {
 
           {/* Final Result */}
           {result && !loading && (
-            <section className="bg-white rounded-lg border p-4 space-y-4">
+            <section className="pf-lux-panel rounded-lg p-4 space-y-4">
               <div className="flex items-center justify-between">
-                <h2 className="font-semibold text-gray-700">Generated Output</h2>
+                <h2 className="font-semibold text-slate-200">Generated Output</h2>
                 <div className="flex items-center gap-2">
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-slate-500">
                     provider: {result.provider}
                     {result.isMock ? ' (mock)' : ''}
                   </span>
                   {result.usage && (
-                    <span className="text-xs text-gray-400">
+                    <span className="text-xs text-slate-500">
                       tokens: {result.usage.totalTokens}
                     </span>
                   )}
@@ -486,15 +486,15 @@ export default function GeneratePage() {
               </div>
 
               {/* Main output text */}
-              <pre className="text-sm whitespace-pre-wrap bg-gray-50 rounded p-3">
+              <pre className="text-sm whitespace-pre-wrap bg-slate-950/70 border border-white/10 rounded p-3 text-slate-200">
                 {result.text || result.generatedPrompt || result.rewrittenPrompt || ''}
               </pre>
 
               {/* Additional fields */}
               {result.negativePrompt && (
                 <div>
-                  <h3 className="text-xs font-medium text-gray-600 mb-1">Negative Prompt</h3>
-                  <pre className="text-xs whitespace-pre-wrap bg-gray-50 rounded p-2">
+                  <h3 className="text-xs font-medium text-slate-300 mb-1">Negative Prompt</h3>
+                  <pre className="text-xs whitespace-pre-wrap bg-slate-950/70 border border-white/10 rounded p-2 text-slate-300">
                     {result.negativePrompt}
                   </pre>
                 </div>
@@ -502,7 +502,7 @@ export default function GeneratePage() {
 
               {result.missingInfoHints && result.missingInfoHints.length > 0 && (
                 <div>
-                  <h3 className="text-xs font-medium text-gray-600 mb-1">Missing Info Hints</h3>
+                  <h3 className="text-xs font-medium text-slate-300 mb-1">Missing Info Hints</h3>
                   <ul className="list-disc ml-5 text-xs text-amber-700">
                     {result.missingInfoHints.map((h, i) => (
                       <li key={i}>{h}</li>
@@ -513,8 +513,8 @@ export default function GeneratePage() {
 
               {result.suggestions && result.suggestions.length > 0 && (
                 <div>
-                  <h3 className="text-xs font-medium text-gray-600 mb-1">Suggestions</h3>
-                  <ul className="list-disc ml-5 text-xs text-blue-700">
+                  <h3 className="text-xs font-medium text-slate-300 mb-1">Suggestions</h3>
+                  <ul className="list-disc ml-5 text-xs text-cyan-200">
                     {result.suggestions.map((s, i) => (
                       <li key={i}>{s}</li>
                     ))}
@@ -524,7 +524,7 @@ export default function GeneratePage() {
 
               {/* Quality Flag */}
               <div className="flex items-center gap-3 pt-2 border-t">
-                <span className="text-xs font-medium text-gray-600">Rate quality:</span>
+                <span className="text-xs font-medium text-slate-300">Rate quality:</span>
                 {!flagSubmitted ? (
                   <>
                     <button
@@ -541,7 +541,7 @@ export default function GeneratePage() {
                     </button>
                   </>
                 ) : (
-                  <span className="text-xs text-gray-400">
+                  <span className="text-xs text-slate-500">
                     Thanks for your feedback: {qualityFlag === 'good' ? '👍' : '👎'}
                   </span>
                 )}

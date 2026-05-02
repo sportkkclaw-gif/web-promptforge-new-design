@@ -74,13 +74,13 @@ export default function TeamPage() {
   const usagePercent = team.totalQuota > 0 ? Math.round((team.usedQuota / team.totalQuota) * 100) : 0;
 
   return (
-    <div className="min-h-screen">
-      <nav className="border-b px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="font-bold text-xl text-primary">PromptForge Studio</Link>
+    <div className="pf-lux-page">
+      <nav className="pf-lux-nav px-6 py-4 flex items-center justify-between">
+        <Link href="/" className="pf-lux-brand font-bold text-xl">PromptForge Studio</Link>
         <div className="flex gap-4">
-          <Link href="/browse" className="text-sm hover:text-primary">Explore</Link>
-          <Link href="/marketplace" className="text-sm hover:text-primary">Marketplace</Link>
-          <Link href="/dashboard" className="text-sm hover:text-primary">Dashboard</Link>
+          <Link href="/browse" className="pf-lux-link text-sm">Explore</Link>
+          <Link href="/marketplace" className="pf-lux-link text-sm">Marketplace</Link>
+          <Link href="/dashboard" className="pf-lux-link text-sm">Dashboard</Link>
         </div>
       </nav>
 

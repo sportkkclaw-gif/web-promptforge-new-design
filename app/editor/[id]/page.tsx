@@ -257,10 +257,10 @@ export default function EditorPage() {
     <div className="min-h-screen flex flex-col">
       {/* ── Top Navigation ─────────────────────────────────────────────────────── */}
       <nav className="border-b px-6 py-3 flex items-center justify-between bg-background shrink-0">
-        <Link href="/" className="font-bold text-xl text-primary">PromptForge Studio</Link>
+        <Link href="/" className="pf-lux-brand font-bold text-xl">PromptForge Studio</Link>
         <div className="flex gap-4 items-center">
-          <Link href="/browse" className="text-sm hover:text-primary">Explore</Link>
-          <Link href="/dashboard" className="text-sm hover:text-primary">Dashboard</Link>
+          <Link href="/browse" className="pf-lux-link text-sm">Explore</Link>
+          <Link href="/dashboard" className="pf-lux-link text-sm">Dashboard</Link>
           <span className="text-xs text-muted-foreground">ID: {id}</span>
           {/* Autosave indicator */}
           <span className="text-xs px-2 py-1 rounded bg-muted">
