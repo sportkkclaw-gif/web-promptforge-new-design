@@ -1,3 +1,10 @@
+## 2026-05-02T14:35:30+08:00 系統管理員續修復：Browse 手機版規格
+- 根因：`/browse` 使用桌面 flex 版面，手機下品牌/導覽/固定左欄/搜尋列會互相擠壓。
+- 修復：導覽改手機橫向 pills、品牌 `whitespace-nowrap`；分類從固定左欄改為手機上方橫向 chips；內容改 `flex-col`、搜尋列滿容器、卡片手機單欄。
+- Commit: 64b7b47；Preview: https://promptforge-studio-lpl4do7e4-sportkk101-5719s-projects.vercel.app
+- 驗證：`npm run build` PASS（86/86）；Playwright 390x844 `/browse`：body horizontal overflow=0、brand 橫排、aside/main/search/cards 寬度 340px、cards 單欄、images 24/24 ok、0 broken；vision 確認符合手機規格。
+- Gate：showcase mobile defect 已修；formal QC 仍維持 returned_for_fix，待 production/preview secrets 後完整 H1-H10。
+
 ## 2026-05-02T09:15:14+08:00 系統管理員續修復：首頁真實圖片未上線
 - 根因：首頁 hero/featured 仍有漸層展示塊，雖 Browse/Marketplace 已接真實 `/demo-covers/*.jpg`。
 - 修復：首頁 hero 主圖、四個小模組、Featured Prompts 全改接真實生成圖 `/demo-covers/prompt_001/002/003/004/011/013/017.jpg`。

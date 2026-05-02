@@ -1,3 +1,16 @@
+## 2026-05-02T14:35:30+08:00 系統管理員續修復：Browse 手機版規格
+- 根因：`/browse` 使用桌面 flex 版面，手機下品牌/導覽/固定左欄/搜尋列會互相擠壓。
+- 修復：導覽改手機橫向 pills、品牌 `whitespace-nowrap`；分類從固定左欄改為手機上方橫向 chips；內容改 `flex-col`、搜尋列滿容器、卡片手機單欄。
+- Commit: 64b7b47；Preview: https://promptforge-studio-lpl4do7e4-sportkk101-5719s-projects.vercel.app
+- 驗證：`npm run build` PASS（86/86）；Playwright 390x844 `/browse`：body horizontal overflow=0、brand 橫排、aside/main/search/cards 寬度 340px、cards 單欄、images 24/24 ok、0 broken；vision 確認符合手機規格。
+- Gate：showcase mobile defect 已修；formal QC 仍維持 returned_for_fix，待 production/preview secrets 後完整 H1-H10。
+
+## 2026-05-02T12:26:15+08:00 Sebastian 例行重驗
+1. SUPAGENT-first + controller canonical：`cloud:contract` PASS、`cloud:readiness` exit 0、`verify:cloud` exit 1、`build` PASS（86/86）。
+2. 阻塞維持：缺 10/10 production env（DATABASE_URL/AUTH_SECRET/AUTH_URL/OPENAI_API_KEY/ANTHROPIC_API_KEY/STRIPE_SECRET_KEY/SENTRY_DSN/ELASTICSEARCH_URL/ELASTICSEARCH_API_KEY/RESEND_API_KEY）。
+3. Gate 維持：`remaining_p0_count=17`、`all_must_fix_completed=false`、`ready_for_build_ready=false`。
+4. internal_next_action：await_secure_cloud_secret_injection_then_run_cloud_contract_readiness_verify_cloud_for_h1_h10
+
 ## 2026-05-02T09:15:14+08:00 系統管理員續修復：首頁真實圖片未上線
 - 根因：首頁 hero/featured 仍有漸層展示塊，雖 Browse/Marketplace 已接真實 `/demo-covers/*.jpg`。
 - 修復：首頁 hero 主圖、四個小模組、Featured Prompts 全改接真實生成圖 `/demo-covers/prompt_001/002/003/004/011/013/017.jpg`。
@@ -61,9 +74,15 @@
 - Live probe：`/` `/create` `/generator/default-template` `/marketplace` `/browse` `/dashboard` `/prompts/prompt_001` 與 demo cover assets 全 HTTP 200；Marketplace browser：12/12 images loaded、0 broken。
 - Gate：showcase defect 已修；formal QC 仍維持 returned_for_fix，待 production/preview secrets 後跑完整 H1-H10。
 
+## 2026-05-02T12:59:43+08:00 Sebastian 例行重驗
+1. SUPAGENT-first + controller canonical：`cloud:contract` PASS、`cloud:readiness` exit 0、`verify:cloud` exit 1、`build` PASS（86/86）。
+2. 阻塞維持：缺 10/10 production env（DATABASE_URL/AUTH_SECRET/AUTH_URL/OPENAI_API_KEY/ANTHROPIC_API_KEY/STRIPE_SECRET_KEY/SENTRY_DSN/ELASTICSEARCH_URL/ELASTICSEARCH_API_KEY/RESEND_API_KEY）。
+3. Gate 維持：`remaining_p0_count=17`、`all_must_fix_completed=false`、`ready_for_build_ready=false`。
+4. internal_next_action：await_secure_cloud_secret_injection_then_run_cloud_contract_readiness_verify_cloud_for_h1_h10
+
 # RC — 20260428_promptforge_full_product_rebuild_v2
 
-updated_at: 2026-05-02T08:53:56+08:00
+updated_at: 2026-05-02T12:59:43+08:00
 status: returned_for_fix
 owner: Sebastian / 蘇執
 next_agent: sebastian

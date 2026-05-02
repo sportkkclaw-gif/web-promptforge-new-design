@@ -9,7 +9,7 @@
   "next_event": null,
   "trace_id": "20260427_ai_promptforge_new_design_plan_mockups-1777290861",
   "created_at": "2026-04-27T19:54:21+08:00",
-  "updated_at": "2026-05-02T09:15:14+08:00",
+  "updated_at": "2026-05-02T14:35:30+08:00",
   "references": [
     "https://civitai.com/",
     "https://prompthero.com/",
@@ -183,6 +183,28 @@
   "ready_for_build_ready": false,
   "remaining_p0_count": 17,
   "completed_steps": [
+    {
+      "at": "2026-05-02T12:59:43+08:00",
+      "by": "sebastian-op",
+      "summary": "SUPAGENT-first + controller canonical re-audit; blocker unchanged (10 missing production env vars).",
+      "evidence": [
+        "node --run cloud:contract PASS (10/10 keys)",
+        "node --run cloud:readiness exit 0; H9✅ H1-H8/H10❌ due missing env",
+        "node --run verify:cloud exit 1; missing DATABASE_URL/AUTH_SECRET/AUTH_URL/OPENAI_API_KEY/ANTHROPIC_API_KEY/STRIPE_SECRET_KEY/SENTRY_DSN/ELASTICSEARCH_URL/ELASTICSEARCH_API_KEY/RESEND_API_KEY",
+        "node --run build PASS (86/86 routes)"
+      ]
+    },
+    {
+      "at": "2026-05-02T12:26:15+08:00",
+      "by": "sebastian-op",
+      "summary": "SUPAGENT-first + controller canonical re-audit; blocker unchanged (10 missing production env vars).",
+      "evidence": [
+        "node --run cloud:contract PASS (10/10 keys)",
+        "node --run cloud:readiness exit 0; H9✅ H1-H8/H10❌ due missing env",
+        "node --run verify:cloud exit 1; missing DATABASE_URL/AUTH_SECRET/AUTH_URL/OPENAI_API_KEY/ANTHROPIC_API_KEY/STRIPE_SECRET_KEY/SENTRY_DSN/ELASTICSEARCH_URL/ELASTICSEARCH_API_KEY/RESEND_API_KEY",
+        "node --run build PASS (86/86 routes)"
+      ]
+    },
     {
       "at": "2026-05-02T08:29:29+08:00",
       "by": "sebastian-op",
@@ -1068,11 +1090,13 @@
       ]
     },
     "build": "PASS npm run build 86/86 routes",
-    "latest_preview": "https://promptforge-studio-5sg6e58c9-sportkk101-5719s-projects.vercel.app",
+    "latest_preview": "https://promptforge-studio-lpl4do7e4-sportkk101-5719s-projects.vercel.app",
     "homepage_images": "PASS browser: 8/8 images loaded, 0 broken; hero/main modules/featured prompts use /demo-covers/*.jpg real generated images",
     "marketplace_images": "PASS browser: 12/12 images loaded, 0 broken, 0 data URI placeholders",
     "http_probe": "PASS / /browse /marketplace /create and demo cover assets HTTP 200",
-    "visual_check": "PASS browser_vision confirmed no gradient/placeholder remains on homepage target areas"
+    "visual_check": "PASS browser_vision confirmed no gradient/placeholder remains on homepage target areas",
+    "mobile_browse_layout": "PASS 390x844 Playwright: bodyOverflow=0; brand horizontal 358x28; category panel top full-width 340px; main 340px; search form 340px; cards single-column 340px; images 24/24 ok, 0 broken",
+    "mobile_preview_screenshot": "/tmp/promptforge_mobile.png analyzed by vision: brand not vertical, nav not overflowing, categories are horizontal chips, search full container width, cards single-column"
   },
   "workflow_history": [
     {
@@ -1983,8 +2007,8 @@
   },
   "repo_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design",
   "pr_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design/pull/2",
-  "preview_url": "https://promptforge-studio-5sg6e58c9-sportkk101-5719s-projects.vercel.app",
-  "cloud_preview_status": "Ready_showcase_images_fixed",
+  "preview_url": "https://promptforge-studio-lpl4do7e4-sportkk101-5719s-projects.vercel.app",
+  "cloud_preview_status": "Ready_showcase_mobile_fixed",
   "supabase_preview_db": {
     "project": "promptforge-ai-preview",
     "ref": "cpubglzsevtoqprvilag",
@@ -2007,5 +2031,5 @@
     "remaining_blocker": "Formal QC remains returned_for_fix until required production/preview secrets and full H1-H10 live verify are provided/passed.",
     "commit": "51adf3c"
   },
-  "latest_commit": "51faf7f"
+  "latest_commit": "64b7b47"
 }
