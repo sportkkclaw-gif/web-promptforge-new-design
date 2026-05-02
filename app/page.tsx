@@ -7,7 +7,7 @@ const featuredPrompts = [
     cat: 'Photography',
     views: '3.4k',
     href: '/prompts/prompt_001',
-    gradient: 'from-cyan-300/40 via-blue-500/25 to-violet-600/40',
+    image: '/demo-covers/prompt_001.jpg',
   },
   {
     title: 'Cyberpunk City Nightscape',
@@ -15,7 +15,7 @@ const featuredPrompts = [
     cat: 'Gaming',
     views: '5.6k',
     href: '/prompts/prompt_002',
-    gradient: 'from-fuchsia-400/40 via-purple-500/25 to-cyan-400/35',
+    image: '/demo-covers/prompt_002.jpg',
   },
   {
     title: 'Fantasy RPG Character Portrait',
@@ -23,7 +23,7 @@ const featuredPrompts = [
     cat: 'Character Design',
     views: '2.9k',
     href: '/prompts/prompt_003',
-    gradient: 'from-amber-300/35 via-rose-500/25 to-indigo-500/40',
+    image: '/demo-covers/prompt_003.jpg',
   },
 ];
 
@@ -87,6 +87,9 @@ export default function HomePage() {
                 <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-xs text-emerald-200">Ready</span>
               </div>
               <div className="space-y-4">
+                <div className="overflow-hidden rounded-2xl border border-cyan-200/15 bg-black/30 shadow-[0_0_45px_rgba(34,211,238,0.14)]">
+                  <img src="/demo-covers/prompt_001.jpg" alt="Ultra-realistic product shot generated cover" className="h-56 w-full object-cover" />
+                </div>
                 <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
                   <div className="mb-3 text-xs uppercase tracking-[0.25em] text-slate-500">Prompt</div>
                   <p className="text-sm leading-7 text-slate-200">
@@ -129,9 +132,10 @@ export default function HomePage() {
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
             {featuredPrompts.map((card) => (
               <Link key={card.href} href={card.href} className="group overflow-hidden rounded-[1.6rem] border border-white/10 bg-white/[0.055] p-4 backdrop-blur-xl transition hover:-translate-y-1 hover:border-cyan-200/30 hover:bg-white/[0.075]">
-                <div className={`h-52 rounded-[1.25rem] bg-gradient-to-br ${card.gradient} relative overflow-hidden`}>
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.55),transparent_18%),linear-gradient(135deg,transparent,rgba(255,255,255,0.18))]" />
-                  <div className="absolute bottom-4 left-4 rounded-full border border-white/20 bg-black/25 px-3 py-1 text-xs text-white backdrop-blur">{card.cat}</div>
+                <div className="h-52 rounded-[1.25rem] relative overflow-hidden border border-white/10 bg-slate-950">
+                  <img src={card.image} alt={`${card.title} real generated cover`} className="h-full w-full object-cover transition duration-500 group-hover:scale-105" />
+                  <div className="absolute inset-0 bg-gradient-to-t from-slate-950/80 via-slate-950/10 to-transparent" />
+                  <div className="absolute bottom-4 left-4 rounded-full border border-white/20 bg-black/35 px-3 py-1 text-xs text-white backdrop-blur">{card.cat}</div>
                 </div>
                 <div className="p-2 pt-5">
                   <h3 className="text-xl font-semibold tracking-tight text-white transition group-hover:text-cyan-100">{card.title}</h3>
