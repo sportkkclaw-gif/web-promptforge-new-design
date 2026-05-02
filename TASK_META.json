@@ -9,7 +9,7 @@
   "next_event": null,
   "trace_id": "20260427_ai_promptforge_new_design_plan_mockups-1777290861",
   "created_at": "2026-04-27T19:54:21+08:00",
-  "updated_at": "2026-05-01T23:50:43+08:00",
+  "updated_at": "2026-05-02T08:53:56+08:00",
   "references": [
     "https://civitai.com/",
     "https://prompthero.com/",
@@ -183,6 +183,62 @@
   "ready_for_build_ready": false,
   "remaining_p0_count": 17,
   "completed_steps": [
+    {
+      "at": "2026-05-02T08:29:29+08:00",
+      "by": "sebastian-op",
+      "summary": "SUPAGENT-first cloud gate re-audit; blocker unchanged (10 missing production env vars).",
+      "evidence": [
+        "node --run cloud:contract PASS (10/10 keys)",
+        "node --run cloud:readiness exit 0; H9✅ H1-H8/H10❌ due missing env",
+        "node --run verify:cloud exit 1; missing DATABASE_URL/AUTH_SECRET/AUTH_URL/OPENAI_API_KEY/ANTHROPIC_API_KEY/STRIPE_SECRET_KEY/SENTRY_DSN/ELASTICSEARCH_URL/ELASTICSEARCH_API_KEY/RESEND_API_KEY",
+        "node --run build PASS (86/86 routes)"
+      ]
+    },
+    {
+      "at": "2026-05-02T07:20:59+08:00",
+      "by": "sebastian-op",
+      "summary": "SUPAGENT-first cloud gate re-audit; blocker unchanged (10 missing production env vars).",
+      "evidence": [
+        "node --run cloud:contract PASS (10/10 keys)",
+        "node --run cloud:readiness exit 0; H9✅ H1-H8/H10❌ due missing env",
+        "node --run verify:cloud exit 1; missing DATABASE_URL/AUTH_SECRET/AUTH_URL/OPENAI_API_KEY/ANTHROPIC_API_KEY/STRIPE_SECRET_KEY/SENTRY_DSN/ELASTICSEARCH_URL/ELASTICSEARCH_API_KEY/RESEND_API_KEY",
+        "node --run build PASS (86/86 routes)"
+      ]
+    },
+    {
+      "at": "2026-05-02T05:41:29+08:00",
+      "by": "sebastian-op",
+      "summary": "SUPAGENT-first cloud gate re-audit; blocker unchanged (10 missing production env vars).",
+      "evidence": [
+        "node --run cloud:contract PASS (10/10 keys)",
+        "node --run cloud:readiness exit 0; H9✅ H1-H8/H10❌ due missing env",
+        "node --run verify:cloud exit 1; missing DATABASE_URL/AUTH_SECRET/AUTH_URL/OPENAI_API_KEY/ANTHROPIC_API_KEY/STRIPE_SECRET_KEY/SENTRY_DSN/ELASTICSEARCH_URL/ELASTICSEARCH_API_KEY/RESEND_API_KEY",
+        "node --run build PASS (86/86 routes)"
+      ]
+    },
+    {
+      "at": "2026-05-02T05:07:17+08:00",
+      "by": "sebastian-op",
+      "summary": "SUPAGENT-first cloud gate re-audit; blocker unchanged (10 missing production env vars).",
+      "evidence": [
+        "node --run cloud:contract PASS (10/10 keys)",
+        "node --run cloud:readiness exit 0; H9✅ H1-H8/H10❌ due missing env",
+        "node --run verify:cloud exit 1; missing DATABASE_URL/AUTH_SECRET/AUTH_URL/OPENAI_API_KEY/ANTHROPIC_API_KEY/STRIPE_SECRET_KEY/SENTRY_DSN/ELASTICSEARCH_URL/ELASTICSEARCH_API_KEY/RESEND_API_KEY",
+        "node --run build PASS (86/86 routes)"
+      ]
+    },
+    {
+      "at": "2026-05-02T04:33:35+08:00",
+      "by": "sebastian-op",
+      "summary": "SUPAGENT-first cloud gate re-audit; build/contract pass, verify:cloud still blocked by missing production secrets.",
+      "evidence": [
+        "node --run cloud:contract PASS (10/10 keys)",
+        "node --run cloud:readiness exit 0; H9✅ H1-H8/H10❌ due missing env",
+        "node --run verify:cloud exit 1; missing 10 required production env vars",
+        "node --run build PASS (86/86)",
+        "node --run test:api DB-dependent suites fail with Prisma localhost:5432 unreachable (external env dependency)"
+      ]
+    },
     {
       "at": "2026-05-01T23:13:21+08:00",
       "by": "Hermes系統管理員",
@@ -1844,7 +1900,7 @@
     "category_check": "left sidebar links server-rendered; URL/results change on click",
     "note": "Windows browser opened to fixed browse page; images are local mock/demo illustrations, not formal AI-generated production assets.",
     "local_url": "http://127.0.0.1:3128/browse",
-    "preview_url": "https://promptforge-studio-oscnhe2zm-sportkk101-5719s-projects.vercel.app/browse",
+    "preview_url": "https://promptforge-studio-67c4502td-sportkk101-5719s-projects.vercel.app",
     "browser_verification": {
       "cloud_browse": "24/24 images loaded, 0 broken, src /demo-covers/*.jpg",
       "cloud_detail_prompt_016": "4/4 images loaded, 0 broken, src /demo-covers/prompt_016.jpg",
@@ -1900,12 +1956,29 @@
       "verified_at": "2026-05-01T21:55+08:00",
       "commit": "953ba25",
       "checks": "local tsc/build PASS; cloud route HTTP 200; old white tokens absent; browser vision confirmed dark professional style"
+    },
+    "create_route_repair": {
+      "status": "verified",
+      "root_cause": "server redirect on /create produced 307/blank behavior on the provided Vercel preview",
+      "fix": "replaced server redirect with client-side replace plus visible fallback link to /generator/default-template",
+      "verified_at": "2026-05-02T08:53:56+08:00",
+      "preview_url": "https://promptforge-studio-67c4502td-sportkk101-5719s-projects.vercel.app/create",
+      "commit": "51adf3c"
+    },
+    "marketplace_cover_repair": {
+      "status": "verified",
+      "root_cause": "DB smoke prompt IDs generated non-existent /demo-covers/<cuid>.svg paths",
+      "fix": "ignore non prompt_* cover URLs and deterministically map all marketplace rows to existing /demo-covers/prompt_###.jpg assets",
+      "verified_at": "2026-05-02T08:53:56+08:00",
+      "preview_url": "https://promptforge-studio-67c4502td-sportkk101-5719s-projects.vercel.app/marketplace",
+      "checks": "browser JS: images=12, ok=12, broken=0; browser vision confirms dark professional marketplace with visible card covers",
+      "commit": "51adf3c"
     }
   },
   "repo_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design",
   "pr_url": "https://github.com/sportkkclaw-gif/web-promptforge-new-design/pull/2",
-  "preview_url": "https://promptforge-studio-f4z8uf7k3-sportkk101-5719s-projects.vercel.app",
-  "cloud_preview_status": "db_backed_preview_ready_h1_h10_passed_mock_ai",
+  "preview_url": "https://promptforge-studio-67c4502td-sportkk101-5719s-projects.vercel.app",
+  "cloud_preview_status": "showcase_preview_partial_repaired_create_marketplace_images_verified",
   "supabase_preview_db": {
     "project": "promptforge-ai-preview",
     "ref": "cpubglzsevtoqprvilag",
@@ -1916,14 +1989,17 @@
     "seed_summary": "Plans 4, Users 5, Workspaces 1, Categories 10, Prompts 24, Prompt Assets 72, Marketplace Items 8, Generation Outputs 24"
   },
   "cloud_verification": {
-    "at": "2026-05-01T23:13:21+08:00",
-    "base_url": "https://promptforge-studio-f4z8uf7k3-sportkk101-5719s-projects.vercel.app",
-    "result": "PASS",
-    "checks": "H1-H10 10/10 passed; H10 health skipped because no dedicated health endpoint and H1-H9 prove liveness",
+    "at": "2026-05-02T08:53:56+08:00",
+    "base_url": "https://promptforge-studio-67c4502td-sportkk101-5719s-projects.vercel.app",
+    "result": "PARTIAL_PASS_SHOWCASE_REPAIR",
+    "checks": "HTTP probe PASS: /, /create, /generator/default-template, /marketplace, /browse, /dashboard, /prompts/prompt_001, demo covers all 200. build PASS 86/86. Marketplace browser check 12/12 images loaded, 0 broken. /create now HTTP 200 and client-routes to generator workspace.",
     "browser_checks": {
       "/browse": "24 images loaded, 0 broken, 24 prompt cards, no app error",
       "/dashboard": "6 module cards, no Something went wrong/Application error"
     },
-    "mode": "DB-backed Supabase Preview with USE_MOCK_AI=true; third-party provider keys remain placeholders until Jason supplies real secrets"
-  }
+    "mode": "DB-backed Supabase Preview with USE_MOCK_AI=true; third-party provider keys remain placeholders until Jason supplies real secrets",
+    "remaining_blocker": "Formal QC remains returned_for_fix until required production/preview secrets and full H1-H10 live verify are provided/passed.",
+    "commit": "51adf3c"
+  },
+  "latest_commit": "51adf3c"
 }

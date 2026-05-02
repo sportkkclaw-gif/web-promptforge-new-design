@@ -1,12 +1,75 @@
+## 2026-05-02T08:29:29+08:00 Sebastian 例行重驗
+- cloud:contract PASS（10/10）
+- cloud:readiness：H9✅；其餘受10項secrets缺失阻塞
+- verify:cloud FAIL（缺10項必要production env）
+- build PASS（86/86）
+- Gate維持：remaining_p0_count=17、ready_for_build_ready=false
+
+## 2026-05-02T07:54:35+08:00 Sebastian 例行重驗
+- cloud:contract PASS（10/10）
+- cloud:readiness：H9✅；其餘受10項secrets缺失阻塞
+- verify:cloud FAIL（缺10項必要production env）
+- build PASS（86/86）
+- Gate維持：remaining_p0_count=17、ready_for_build_ready=false
+
+## 2026-05-02T07:20:59+08:00 Sebastian 例行重驗
+- cloud:contract PASS（10/10）
+- cloud:readiness：H9✅；其餘受10項secrets缺失阻塞
+- verify:cloud FAIL（缺10項必要production env）
+- build PASS（86/86）
+- Gate維持：remaining_p0_count=17、ready_for_build_ready=false
+
+## 2026-05-02T06:13:54+08:00 Sebastian 例行重驗
+- cloud:contract PASS（10/10）
+- cloud:readiness：H9✅；其餘受10項secrets缺失阻塞
+- verify:cloud FAIL（缺10項必要production env）
+- build PASS（86/86）
+- Gate維持：remaining_p0_count=17、ready_for_build_ready=false
+
+## 2026-05-02T05:41:29+08:00 Sebastian 例行重驗
+- cloud:contract PASS（10/10）
+- cloud:readiness：H9✅；其餘受10項secrets缺失阻塞
+- verify:cloud FAIL（缺10項必要production env）
+- build PASS（86/86）
+- Gate維持：remaining_p0_count=17、ready_for_build_ready=false
+
+## 2026-05-02T05:07:17+08:00 Sebastian 例行重驗
+- cloud:contract PASS（10/10）
+- cloud:readiness：H9✅；其餘受10項secrets缺失阻塞
+- verify:cloud FAIL（缺10項必要production env）
+- build PASS（86/86）
+- Gate維持：remaining_p0_count=17、ready_for_build_ready=false
+
+## 2026-05-02T04:33:35+08:00 Sebastian 例行重驗
+- cloud:contract PASS（10/10）
+- cloud:readiness：H9✅；其餘受10項secrets缺失阻塞
+- verify:cloud FAIL（缺10項必要production env）
+- build PASS（86/86）；test:api失敗屬DB外部依賴
+- Gate維持：remaining_p0_count=17、ready_for_build_ready=false
+
+## 2026-05-02T08:53:56+08:00 系統管理員續修復：/create + Marketplace 圖片
+- 根因：指定 Preview 的 `/create` server redirect 產生 307/空白等待；Marketplace 後段 smoke 資料使用不存在的 `/demo-covers/<cuid>.svg`。
+- 修復：`/create` 改為 client replace + 可見 fallback link；Marketplace cover 對非 `prompt_###` 資產改映射到現有 `/demo-covers/prompt_###.jpg`。
+- 驗證：`npm run build` PASS（86/86）；新 Preview：https://promptforge-studio-67c4502td-sportkk101-5719s-projects.vercel.app
+- Live probe：`/` `/create` `/generator/default-template` `/marketplace` `/browse` `/dashboard` `/prompts/prompt_001` 與 demo cover assets 全 HTTP 200；Marketplace browser：12/12 images loaded、0 broken。
+- Gate：showcase defect 已修；formal QC 仍維持 returned_for_fix，待 production/preview secrets 後跑完整 H1-H10。
+
 # NEXT_STEP — 20260428_promptforge_full_product_rebuild_v2
 
-updated_at: 2026-05-01T23:58:00+08:00
+updated_at: 2026-05-02T08:53:56+08:00
 status: returned_for_fix
 current_lane: 04_打回修改/sebastian
 next_agent: sebastian
 next_event: null
 internal_next_action: await_secure_cloud_secret_injection_then_run_cloud_contract_readiness_verify_cloud_for_h1_h10
 simon_verdict: review.rejected
+
+## 2026-05-02T03:58:44+08:00 本輪續作
+1. SUPAGENT-first audit + controller canonical：`cloud:contract` PASS、`cloud:readiness` exit 0、`verify:cloud` exit 1、`build` PASS（86/86）。
+2. 阻塞維持：10/10 production secrets 仍缺，H1~H8/H10 無法進入 live smoke。
+3. Gate維持：`remaining_p0_count=17`、`all_must_fix_completed=false`、`ready_for_build_ready=false`。
+4. internal_next_action: await_secure_cloud_secret_injection_then_run_cloud_contract_readiness_verify_cloud_for_h1_h10
+5. 下一最小可執行項：注入 secrets + cloud URL 後重跑 `cloud:contract`→`cloud:readiness`→`BASE_URL=<url> node --run verify:cloud`。
 
 ## 2026-05-01T23:58:00+08:00 真實風格縮圖修正
 1. 使用 Hermes image_gen/OpenAI Codex 生成 24 張真實風格 Prompt marketplace cover。
@@ -484,22 +547,4 @@ simon_verdict: review.rejected
 
 ### 已處理
 - 修正 `scripts/verify-cloud-happy-path.ts` 的 false-negative：
-  - GET helper 支援 Bearer token。
-  - H1 session 改用 register token 驗證。
-  - H5 credits/quota、H7 orders 改用 auth token。
-  - H9 analytics 改由 `/api/auth/session` 解析 smoke userId 後查詢。
-- 重跑驗證：
-  - `node --run cloud:contract`：PASS。
-  - `node --run build`：PASS，86/86 routes。
-  - `node --run cloud:readiness`：仍回報 10/10 production env missing。
-  - `node --run verify:cloud`：exit 1，因必填 production env 未注入，尚未進入 H1-H10 live smoke。
-
-### 個案阻塞（非 OP 程式工作）
-- 無法由 Hermes 合法自行產生的外部帳密仍缺：`DATABASE_URL`, `OPENAI_API_KEY`, `ANTHROPIC_API_KEY`, `STRIPE_SECRET_KEY`, `SENTRY_DSN`, `ELASTICSEARCH_URL`, `ELASTICSEARCH_API_KEY`, `RESEND_API_KEY`。
-- `AUTH_SECRET` 可由系統管理員生成，但沒有 DB/provider secrets 與最終 `AUTH_URL` 時，單獨注入不構成 QC-ready。
-- Supabase：既有 `promptforge-ai-preview` 可 link；新建 project 被 free project 2/2 上限阻擋；DB push 仍需 `SUPABASE_DB_PASSWORD`/可用連線。
-
-### QC 判定
-- 未送 Simon/QC：目前若送 `build.ready` 會是 false positive。
-- `ready_for_build_ready=false`, `all_must_fix_completed=false`, `remaining_p0_count=17` 維持。
 

@@ -1,3 +1,11 @@
+## 2026-05-02T08:53:56+08:00 Cloud Preview repair verification
+- Preview: https://promptforge-studio-67c4502td-sportkk101-5719s-projects.vercel.app
+- Commit: 51adf3c
+- Fixed `/create` blank/307 behavior by serving a client fallback page and replacing to `/generator/default-template`.
+- Fixed Marketplace broken covers for DB smoke rows by mapping non-`prompt_###` assets to existing `/demo-covers/prompt_###.jpg`.
+- Verified: build PASS 86/86; HTTP 200 for `/create`, `/generator/default-template`, `/marketplace`; browser JS marketplace images=12, ok=12, broken=0; browser vision confirms dark professional marketplace.
+- Limitation: showcase/mock repair only; formal QC still blocked on required production/preview secrets and full H1-H10 live verification.
+
 # PromptForge Mock / Cloud Showcase 狀態
 
 - updated_at: 2026-05-01T23:13:21+08:00
