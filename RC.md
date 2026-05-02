@@ -1,3 +1,10 @@
+## 2026-05-02T14:49:00+08:00 系統管理員續修復：Prompt Detail 手機排版空間
+- 根因：`/prompts/[id]` 詳情頁手機仍使用桌面 3 欄 grid，左圖佔寬過大、右側標題/CTA 可用空間不足；頂部 CTA 在窄螢幕會被裁切。
+- 修復：手機改 `92px + minmax(0,1fr)` 雙欄，左側縮圖縮小；右側 `min-w-0`、標題/描述/CTA responsive；頂部導覽改 flex-wrap，手機 CTA 縮短為 `Apply`。
+- Commit: b8e9f9f；Preview: https://promptforge-studio-ipdew9ax6-sportkk101-5719s-projects.vercel.app
+- 驗證：`npm run build` PASS（86/86）；Playwright 390x844 `/prompts/prompt_021`：horizontal overflow=0、left column=92px、right column=236px、h1/CTA right<=365/348、images loaded、HTTP 200；vision 確認無右側裁切。
+- Gate：showcase detail mobile defect 已修；formal QC 仍維持 returned_for_fix，待 production/preview secrets 後完整 H1-H10。
+
 ## 2026-05-02T14:35:30+08:00 系統管理員續修復：Browse 手機版規格
 - 根因：`/browse` 使用桌面 flex 版面，手機下品牌/導覽/固定左欄/搜尋列會互相擠壓。
 - 修復：導覽改手機橫向 pills、品牌 `whitespace-nowrap`；分類從固定左欄改為手機上方橫向 chips；內容改 `flex-col`、搜尋列滿容器、卡片手機單欄。
@@ -82,7 +89,7 @@
 
 # RC — 20260428_promptforge_full_product_rebuild_v2
 
-updated_at: 2026-05-02T12:59:43+08:00
+updated_at: 2026-05-02T14:49:00+08:00
 status: returned_for_fix
 owner: Sebastian / 蘇執
 next_agent: sebastian
@@ -573,4 +580,5 @@ simon_verdict: review.rejected
 - `node --experimental-vm-modules node_modules/jest/bin/jest.js tests/api/generate-routes.test.ts --runInBand --no-coverage` → PASS（1 suite, 23 tests）
 - `node --run build` → PASS（Compiled successfully；static pages 80/80，含 `/api/generate/stream` `/api/generate/history` `/api/generate/[id]`）
 3. checklist 對齊：`FULL_BUILD_CHECKLIST.md` 勾選 Generation API 4 項（stream/history/detail/cancel）；Completion Summary `Generation P0 0->4`、`TOTAL P0 61->65`。
+
 

@@ -9,7 +9,7 @@
   "next_event": null,
   "trace_id": "20260427_ai_promptforge_new_design_plan_mockups-1777290861",
   "created_at": "2026-04-27T19:54:21+08:00",
-  "updated_at": "2026-05-02T14:35:30+08:00",
+  "updated_at": "2026-05-02T14:49:00+08:00",
   "references": [
     "https://civitai.com/",
     "https://prompthero.com/",
@@ -183,6 +183,18 @@
   "ready_for_build_ready": false,
   "remaining_p0_count": 17,
   "completed_steps": [
+    {
+      "at": "2026-05-02T14:49:00+08:00",
+      "by": "Hermes系統管理員",
+      "summary": "修復 /prompts/[id] 手機詳情頁：左側縮圖縮小、右側排版空間加大、頂部 CTA 不裁切。",
+      "evidence": [
+        "commit b8e9f9f fix: improve prompt detail mobile layout",
+        "preview https://promptforge-studio-ipdew9ax6-sportkk101-5719s-projects.vercel.app",
+        "npm run build PASS (86/86 routes)",
+        "Playwright 390x844 /prompts/prompt_021: overflow=0, left=92px, right=236px, CTA within viewport, images loaded",
+        "HTTP 200: /, /browse, /marketplace, /create, /prompts/prompt_021"
+      ]
+    },
     {
       "at": "2026-05-02T12:59:43+08:00",
       "by": "sebastian-op",

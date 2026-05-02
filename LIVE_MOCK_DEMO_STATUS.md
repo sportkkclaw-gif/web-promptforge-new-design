@@ -1,3 +1,10 @@
+## 2026-05-02T14:49:00+08:00 系統管理員續修復：Prompt Detail 手機排版空間
+- 根因：`/prompts/[id]` 手機仍用桌面 3 欄，左圖過大、右側排版空間不足；頂部 CTA 會被右側裁切。
+- 修復：手機改 92px 左欄 + 彈性右欄；右側標題/描述/CTA responsive；頂部導覽可換行且 CTA 手機顯示 `Apply`。
+- Commit: b8e9f9f；Preview: https://promptforge-studio-ipdew9ax6-sportkk101-5719s-projects.vercel.app
+- 驗證：`npm run build` PASS（86/86）；Playwright 390x844 `/prompts/prompt_021` overflow=0、left=92px、right=236px、CTA 未裁切、images loaded；vision 確認通過。
+- Gate：showcase detail mobile defect 已修；formal QC 仍維持 returned_for_fix，待 production/preview secrets 後完整 H1-H10。
+
 ## 2026-05-02T14:35:30+08:00 系統管理員續修復：Browse 手機版規格
 - 根因：`/browse` 使用桌面 flex 版面，手機下品牌/導覽/固定左欄/搜尋列會互相擠壓。
 - 修復：導覽改手機橫向 pills、品牌 `whitespace-nowrap`；分類從固定左欄改為手機上方橫向 chips；內容改 `flex-col`、搜尋列滿容器、卡片手機單欄。
@@ -22,9 +29,9 @@
 
 # PromptForge Mock / Cloud Showcase 狀態
 
-- updated_at: 2026-05-01T23:13:21+08:00
+- updated_at: 2026-05-02T14:49:00+08:00
 - mode: Supabase DB-backed Vercel Preview + Mock AI provider
-- cloud Preview: https://promptforge-studio-f4z8uf7k3-sportkk101-5719s-projects.vercel.app
+- cloud Preview: https://promptforge-studio-ipdew9ax6-sportkk101-5719s-projects.vercel.app
 - GitHub repo: https://github.com/sportkkclaw-gif/web-promptforge-new-design
 - PR: https://github.com/sportkkclaw-gif/web-promptforge-new-design/pull/2
 - database: Supabase `promptforge-ai-preview` 已 force-reset schema 並 seed；DATABASE_URL 僅存本機安全檔 `/home/sport/.hermes/promptforge.production.env`
