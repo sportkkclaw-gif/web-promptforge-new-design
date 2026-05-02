@@ -4,10 +4,10 @@ import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
 
-function demoCoverPath(item: { prompt: { id: string; assets?: Array<{ url: string }> } }) {
+function demoCoverPath(item: { prompt: { id: string; assets?: Array<{ url: string }> } }, index = 0) {
   const assetUrl = item.prompt.assets?.[0]?.url;
   if (assetUrl?.startsWith('/demo-covers/prompt_')) return assetUrl;
-  const id = /^prompt_\d{3}$/.test(item.prompt.id) ? item.prompt.id : 'prompt_001';
+  const id = /^prompt_\d{3}$/.test(item.prompt.id) ? item.prompt.id : `prompt_${String((index % 24) + 1).padStart(3, '0')}`;
   return `/demo-covers/${id}.jpg`;
 }
 
@@ -98,7 +98,7 @@ export default async function MarketplacePage() {
               >
                 <div className="relative h-44 overflow-hidden rounded-[1.2rem] bg-slate-900">
                   <img
-                    src={demoCoverPath(item)}
+                    src={demoCoverPath(item, index)}
                     alt={`${item.prompt.title} marketplace cover`}
                     className="h-full w-full object-cover transition duration-500 group-hover:scale-105"
                   />
