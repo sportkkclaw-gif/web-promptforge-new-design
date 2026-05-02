@@ -97,11 +97,18 @@ export default function HomePage() {
                   </p>
                 </div>
                 <div className="grid grid-cols-2 gap-4">
-                  {['Style DNA', 'Negative Guard', 'Versioning', 'Marketplace'].map((label, index) => (
-                    <div key={label} className="rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.10] to-white/[0.03] p-4">
-                      <div className="mb-8 h-12 rounded-xl bg-gradient-to-br from-cyan-300/25 via-purple-400/20 to-transparent" />
-                      <div className="text-sm font-medium">{label}</div>
-                      <div className="mt-1 text-xs text-slate-400">0{index + 1} · controlled output</div>
+                  {[
+                    ['Style DNA', '/demo-covers/prompt_004.jpg'],
+                    ['Negative Guard', '/demo-covers/prompt_011.jpg'],
+                    ['Versioning', '/demo-covers/prompt_017.jpg'],
+                    ['Marketplace', '/demo-covers/prompt_013.jpg'],
+                  ].map(([label, image], index) => (
+                    <div key={label} className="overflow-hidden rounded-2xl border border-white/10 bg-gradient-to-br from-white/[0.10] to-white/[0.03]">
+                      <img src={image} alt={`${label} generated thumbnail`} className="h-20 w-full object-cover opacity-90" />
+                      <div className="p-4">
+                        <div className="text-sm font-medium">{label}</div>
+                        <div className="mt-1 text-xs text-slate-400">0{index + 1} · controlled output</div>
+                      </div>
                     </div>
                   ))}
                 </div>
