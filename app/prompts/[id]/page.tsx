@@ -35,25 +35,25 @@ export default async function PromptDetailPage({ params }: { params: { id: strin
 
   return (
     <div className="pf-lux-page">
-      <nav className="pf-lux-nav px-6 py-4 flex items-center justify-between">
-        <Link href="/" className="pf-lux-brand font-bold text-xl">PromptForge Studio</Link>
-        <div className="flex gap-4 items-center">
-          <Link href="/browse" className="pf-lux-link text-sm">Explore</Link>
-          <Link href="/marketplace" className="pf-lux-link text-sm">Marketplace</Link>
-          <Link href="/dashboard" className="pf-lux-link text-sm">Dashboard</Link>
-          <Link href={`/create?apply=${prompt.id}`} className="pf-lux-cta px-4 py-2 rounded-md text-sm font-medium">Apply to Workspace</Link>
+      <nav className="pf-lux-nav px-4 py-4 md:px-6 flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+        <Link href="/" className="pf-lux-brand whitespace-nowrap font-bold text-xl">PromptForge Studio</Link>
+        <div className="flex w-full flex-wrap gap-2 md:w-auto md:items-center md:gap-4 md:flex-nowrap">
+          <Link href="/browse" className="pf-lux-link shrink-0 rounded-full px-2 py-1 text-sm md:px-0 md:py-0">Explore</Link>
+          <Link href="/marketplace" className="pf-lux-link shrink-0 rounded-full px-2 py-1 text-sm md:px-0 md:py-0">Marketplace</Link>
+          <Link href="/dashboard" className="pf-lux-link shrink-0 rounded-full px-2 py-1 text-sm md:px-0 md:py-0">Dashboard</Link>
+          <Link href={`/create?apply=${prompt.id}`} className="pf-lux-cta shrink-0 px-3 py-2 rounded-full text-sm font-medium md:rounded-md md:px-4"><span className="sm:hidden">Apply</span><span className="hidden sm:inline">Apply to Workspace</span></Link>
         </div>
       </nav>
 
-      <div className="max-w-5xl mx-auto px-6 py-8">
-        <section className="pf-lux-shell p-5 md:p-7">
-        <div className="grid grid-cols-3 gap-8">
+      <div className="max-w-5xl mx-auto px-3 py-5 sm:px-4 md:px-6 md:py-8">
+        <section className="pf-lux-shell p-3 sm:p-4 md:p-7">
+        <div className="grid grid-cols-[92px_minmax(0,1fr)] gap-3 sm:grid-cols-[128px_minmax(0,1fr)] sm:gap-4 md:grid-cols-3 md:gap-8">
           {/* Left: Image */}
-          <div className="col-span-1">
+          <div className="min-w-0 md:col-span-1">
             <div className="pf-lux-card rounded-xl aspect-square overflow-hidden">
               <img src={demoCoverPath(prompt)} alt={`${prompt.title} cover`} className="h-full w-full object-cover" />
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-2">
+            <div className="mt-2 grid grid-cols-2 gap-1.5 sm:grid-cols-3 sm:gap-2 md:mt-4">
               {prompt.assets.filter(a => a.type === 'sample').map((asset, index) => (
                 <div key={asset.id} className="pf-lux-card rounded-md aspect-square overflow-hidden">
                   <img src={demoCoverPath(prompt, index + 1)} alt={asset.alt || `${prompt.title} sample ${index + 1}`} className="h-full w-full object-cover" />
@@ -63,38 +63,38 @@ export default async function PromptDetailPage({ params }: { params: { id: strin
           </div>
 
           {/* Right: Details */}
-          <div className="col-span-2 space-y-6">
+          <div className="min-w-0 space-y-4 md:col-span-2 md:space-y-6">
             <div>
-              <div className="flex items-center gap-2 mb-2">
-                <span className="pf-lux-chip px-2 py-1 text-xs font-medium rounded-md">{prompt.engine}</span>
-                <span className="pf-lux-chip px-2 py-1 text-xs rounded-md">{prompt.model}</span>
+              <div className="mb-2 flex flex-wrap items-center gap-2">
+                <span className="pf-lux-chip px-2 py-1 text-[10px] font-medium rounded-md sm:text-xs">{prompt.engine}</span>
+                <span className="pf-lux-chip px-2 py-1 text-[10px] rounded-md sm:text-xs">{prompt.model}</span>
               </div>
-              <h1 className="pf-lux-title text-4xl font-bold">{prompt.title}</h1>
-              <p className="pf-lux-muted mt-2">{prompt.summary}</p>
-              <div className="flex items-center gap-3 mt-4">
+              <h1 className="pf-lux-title text-2xl font-bold leading-tight sm:text-3xl md:text-4xl">{prompt.title}</h1>
+              <p className="pf-lux-muted mt-2 text-sm leading-relaxed md:text-base">{prompt.summary}</p>
+              <div className="mt-4 flex flex-col gap-1 sm:flex-row sm:items-center sm:gap-3">
                 <span className="text-sm">by <Link href={`/user/${prompt.owner.username}`} className="text-cyan-200 font-medium">@{prompt.owner.username}</Link></span>
-                <span className="pf-lux-muted text-sm">{prompt.viewCount} views · {prompt.saveCount} saves</span>
+                <span className="pf-lux-muted text-xs sm:text-sm">{prompt.viewCount} views · {prompt.saveCount} saves</span>
               </div>
             </div>
 
             {/* Price / Marketplace */}
-            <div className="pf-lux-panel p-6">
+            <div className="pf-lux-panel p-4 md:p-6">
               {prompt.marketplaceItem ? (
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
                   <div>
-                    <div className="text-2xl font-bold text-cyan-200">{prompt.marketplaceItem.priceCredits} credits</div>
+                    <div className="text-xl font-bold text-cyan-200 md:text-2xl">{prompt.marketplaceItem.priceCredits} credits</div>
                     <div className="pf-lux-muted text-xs mt-1">License: {prompt.marketplaceItem.license}</div>
                     <div className="pf-lux-muted text-xs">{prompt.marketplaceItem.salesCount} sales · ★ {prompt.marketplaceItem.ratingAvg.toFixed(1)}</div>
                   </div>
-                  <form action={`/api/marketplace/orders`} method="post">
+                  <form action={`/api/marketplace/orders`} method="post" className="w-full sm:w-auto">
                     <input type="hidden" name="itemId" value={prompt.marketplaceItem?.id} />
-                    <button className="pf-lux-cta px-6 py-3 rounded-lg font-medium">Buy Now</button>
+                    <button className="pf-lux-cta w-full px-5 py-3 rounded-lg font-medium sm:w-auto md:px-6">Buy Now</button>
                   </form>
                 </div>
               ) : (
-                <div className="flex items-center justify-between">
+                <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
                   <div className="text-lg font-medium">{prompt.priceCredits > 0 ? `${prompt.priceCredits} credits` : 'Free'}</div>
-                  <Link href={`/create?apply=${prompt.id}`} className="pf-lux-cta px-6 py-3 rounded-lg font-medium">Apply to Create</Link>
+                  <Link href={`/create?apply=${prompt.id}`} className="pf-lux-cta w-full px-5 py-3 text-center rounded-lg font-medium sm:w-auto md:px-6">Apply to Create</Link>
                 </div>
               )}
             </div>
@@ -102,8 +102,8 @@ export default async function PromptDetailPage({ params }: { params: { id: strin
             {/* Prompt Content */}
             <div>
               <h2 className="font-semibold mb-3 text-white">Prompt</h2>
-              <div className="pf-lux-panel p-4">
-                <p className="text-sm leading-relaxed text-slate-100">{prompt.content}</p>
+              <div className="pf-lux-panel p-3 md:p-4">
+                <p className="break-words text-sm leading-relaxed text-slate-100">{prompt.content}</p>
               </div>
             </div>
 
